@@ -1,6 +1,6 @@
-<<<<<<< HEAD
+# Intellij
 .idea/*
-=======
+
 # Compiled Object files
 *.slo
 *.lo
@@ -29,4 +29,3 @@
 *.exe
 *.out
 *.app
->>>>>>> 95e1b843dd4e7e6316f49afda17fdb4f1eea7054
