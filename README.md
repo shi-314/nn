@@ -1,6 +1,6 @@
 nn
 ==
-Neural network simulation in C++
+Neural network simulation with the backpropagation algorithm in C++
 
 TODO
 ==
