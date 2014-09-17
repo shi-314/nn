@@ -11,4 +11,5 @@ TODO
 ==
 * Documentation
 * Examples
-* Apply C++ best practices
+* Apply C++11 best practices
+* Find more use cases
