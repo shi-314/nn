@@ -19,7 +19,7 @@ public:
 	/**
 	* Sets the number of input units
 	*/
-	void setNumInputs(int n);
+	void setNumInputs(size_t n);
 
 	/**
 	* Returns the number of input units
@@ -29,7 +29,7 @@ public:
 	/**
 	* Sets the number of output units
 	*/
-	void setNumOutputs(int n);
+	void setNumOutputs(size_t n);
 
 	/**
 	* Returns the number of output units
@@ -39,7 +39,7 @@ public:
 	/**
 	* Sets the number of hidden layers
 	*/
-	void setNumHiddenLayers(int n);
+	void setNumHiddenLayers(size_t n);
 
 	/**
 	* Returns the number of hidden layers
@@ -49,7 +49,7 @@ public:
 	/**
 	* Sets the number of neurons in each hidden layer
 	*/
-	void setNumNeuronsPerHL(int n);
+	void setNumNeuronsPerHL(size_t n);
 
 	/**
 	* Returns the number of neurons in each hidden layer

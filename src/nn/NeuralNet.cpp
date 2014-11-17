@@ -20,7 +20,7 @@ NeuralNet::~NeuralNet() {
 	srand(time(0));
 }
 
-void NeuralNet::setNumInputs(int n) {
+void NeuralNet::setNumInputs(size_t n) {
 	this->numInputs = n;
 }
 
@@ -28,7 +28,7 @@ int NeuralNet::getNumInputs() {
 	return this->numInputs;
 }
 
-void NeuralNet::setNumOutputs(int n) {
+void NeuralNet::setNumOutputs(size_t n) {
 	this->numOutputs = n;
 }
 
@@ -36,7 +36,7 @@ int NeuralNet::getNumOutputs() {
 	return this->numOutputs;
 }
 
-void NeuralNet::setNumHiddenLayers(int n) {
+void NeuralNet::setNumHiddenLayers(size_t n) {
 	this->numHiddenLayers = n;
 }
 
