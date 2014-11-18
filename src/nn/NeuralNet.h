@@ -13,6 +13,7 @@
 class NeuralNet {
 public:
 	NeuralNet();
+	NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers, size_t neuronsPerHL);
 
 	~NeuralNet();
 

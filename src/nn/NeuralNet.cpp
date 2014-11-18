@@ -10,7 +10,16 @@
 
 #include "NeuralNetModule.h"
 
-NeuralNet::NeuralNet() {
+NeuralNet::NeuralNet()
+	: numInputs(0),
+	  numOutputs(0), 
+	  numHiddenLayers(0), 
+	  numNeuronsPerHL(0),
+	  momentum(0.9),
+	  learningRate(1),
+	  biasValue(1),
+	  useBias(true)
+{
 	this->learningRate = 1;
 	this->biasValue = 1;
 	this->useBias = true;
@@ -44,7 +53,7 @@ int NeuralNet::getNumHiddenLayers() {
 	return this->numHiddenLayers;
 }
 
-void NeuralNet::setNumNeuronsPerHL(int n) {
+void NeuralNet::setNumNeuronsPerHL(size_t n) {
 	this->numNeuronsPerHL = n;
 }
 
