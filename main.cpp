@@ -17,12 +17,9 @@ int main() {
 	srand(time(0));
 
 	NeuralNet net(2, 1, 1, 2);
-	// net.setBiasStatus(false);
 
 	net.setLearningRate(0.5);
 	net.setMomentum(0.9);
-
-	net.createNet();
 
 	// Inputs
 

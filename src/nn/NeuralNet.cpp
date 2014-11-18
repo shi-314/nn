@@ -25,7 +25,7 @@ NeuralNet::NeuralNet()
 	this->useBias = true;
 }
 
-NeuralNet::NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers, size_t neuronsPerHL)
+NeuralNet::NeuralNet(const size_t inputs, const size_t outputs, const size_t hiddenLayers, const size_t neuronsPerHL)
 	: numInputs(inputs),
 	  numOutputs(outputs), 
 	  numHiddenLayers(hiddenLayers), 
@@ -35,40 +35,41 @@ NeuralNet::NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers, size_t 
 	  biasValue(1),
 	  useBias(true)
 {
+	this->createNet();
 }
 
 NeuralNet::~NeuralNet() {
 }
 
-void NeuralNet::setNumInputs(size_t n) {
+void NeuralNet::setNumInputs(const size_t n) {
 	this->numInputs = n;
 }
 
-int NeuralNet::getNumInputs() {
+int NeuralNet::getNumInputs() const {
 	return this->numInputs;
 }
 
-void NeuralNet::setNumOutputs(size_t n) {
+void NeuralNet::setNumOutputs(const size_t n) {
 	this->numOutputs = n;
 }
 
-int NeuralNet::getNumOutputs() {
+int NeuralNet::getNumOutputs() const {
 	return this->numOutputs;
 }
 
-void NeuralNet::setNumHiddenLayers(size_t n) {
+void NeuralNet::setNumHiddenLayers(const size_t n) {
 	this->numHiddenLayers = n;
 }
 
-int NeuralNet::getNumHiddenLayers() {
+int NeuralNet::getNumHiddenLayers() const {
 	return this->numHiddenLayers;
 }
 
-void NeuralNet::setNumNeuronsPerHL(size_t n) {
+void NeuralNet::setNumNeuronsPerHL(const size_t n) {
 	this->numNeuronsPerHL = n;
 }
 
-int NeuralNet::getNumNeuronsPerHL() {
+int NeuralNet::getNumNeuronsPerHL() const {
 	return this->numNeuronsPerHL;
 }
 
@@ -93,18 +94,18 @@ void NeuralNet::createNet() {
 	this->layers.push_back(outputLayer);
 }
 
-double NeuralNet::sigmoid(double x) {
+double NeuralNet::sigmoid(const double& x) {
 	//double response = 1;
 	//return 1/(1+exp(-x/response));
 	return 1 / (1 + exp(-x));
 }
 
-double NeuralNet::sigmoidDerivation(double x) {
+double NeuralNet::sigmoidDerivation(const double& x) {
 	double gx = this->sigmoid(x);
 	return gx * (1 - gx);
 }
 
-vector<double> NeuralNet::calculateOutputs(vector<double> inputs) {
+const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
 	// Results
 	this->outputs.clear();
 
@@ -149,11 +150,11 @@ vector<double> NeuralNet::calculateOutputs(vector<double> inputs) {
 	return this->outputs;
 }
 
-vector<double> NeuralNet::getOutputs() {
+const vector<double>& NeuralNet::getOutputs() const {
 	return this->outputs;
 }
 
-double NeuralNet::backpropagation(vector<double> inputs, vector<double> expectedOutputs) {
+double NeuralNet::backpropagation(const vector<double>& inputs, const vector<double>& expectedOutputs) {
 	// Error values
 	vector<double> delta_j, delta_i;
 	double standardError = 0;
@@ -241,39 +242,39 @@ double NeuralNet::backpropagation(vector<double> inputs, vector<double> expected
 	return standardError;
 }
 
-void NeuralNet::setLearningRate(double value) {
+void NeuralNet::setLearningRate(const double value) {
 	this->learningRate = value;
 }
 
-double NeuralNet::getLearningRate() {
+double NeuralNet::getLearningRate() const {
 	return this->learningRate;
 }
 
-void NeuralNet::setMomentum(double value) {
+void NeuralNet::setMomentum(const double value) {
 	this->momentum = value;
 }
 
-double NeuralNet::getMomentum() {
+double NeuralNet::getMomentum() const {
 	return this->momentum;
 }
 
-void NeuralNet::setBiasValue(double bias) {
+void NeuralNet::setBiasValue(const double bias) {
 	this->biasValue = bias;
 }
 
-double NeuralNet::getBiasValue() {
+double NeuralNet::getBiasValue() const {
 	return this->biasValue;
 }
 
-void NeuralNet::setBiasStatus(bool useBias) {
+void NeuralNet::setBiasStatus(const bool useBias) {
 	this->useBias = useBias;
 }
 
-bool NeuralNet::getBiasStatus() {
+bool NeuralNet::getBiasStatus() const {
 	return this->useBias;
 }
 
-bool NeuralNet::saveFile(string filename) {
+bool NeuralNet::saveFile(const string& filename) {
 	FILE *file = fopen(filename.c_str(), "w+");
 	if (!file)
 		return false;
@@ -317,7 +318,7 @@ bool NeuralNet::saveFile(string filename) {
 	return true;
 }
 
-bool NeuralNet::loadFile(string filename) {
+bool NeuralNet::loadFile(const string& filename) {
 	TiXmlDocument doc(filename.c_str());
 	if (!doc.LoadFile())
 		return false;

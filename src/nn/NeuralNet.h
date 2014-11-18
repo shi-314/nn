@@ -13,49 +13,49 @@
 class NeuralNet {
 public:
 	NeuralNet();
-	NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers, size_t neuronsPerHL);
+	NeuralNet(const size_t inputs, const size_t outputs, const size_t hiddenLayers, const size_t neuronsPerHL);
 
 	~NeuralNet();
 
 	/**
 	* Sets the number of input units
 	*/
-	void setNumInputs(size_t n);
+	void setNumInputs(const size_t n);
 
 	/**
 	* Returns the number of input units
 	*/
-	int getNumInputs();
+	int getNumInputs() const;
 
 	/**
 	* Sets the number of output units
 	*/
-	void setNumOutputs(size_t n);
+	void setNumOutputs(const size_t n);
 
 	/**
 	* Returns the number of output units
 	*/
-	int getNumOutputs();
+	int getNumOutputs() const;
 
 	/**
 	* Sets the number of hidden layers
 	*/
-	void setNumHiddenLayers(size_t n);
+	void setNumHiddenLayers(const size_t n);
 
 	/**
 	* Returns the number of hidden layers
 	*/
-	int getNumHiddenLayers();
+	int getNumHiddenLayers() const;
 
 	/**
 	* Sets the number of neurons in each hidden layer
 	*/
-	void setNumNeuronsPerHL(size_t n);
+	void setNumNeuronsPerHL(const size_t n);
 
 	/**
 	* Returns the number of neurons in each hidden layer
 	*/
-	int getNumNeuronsPerHL();
+	int getNumNeuronsPerHL() const;
 
 	/**
 	* Creates the neural network with the previously defined dimensions
@@ -66,77 +66,77 @@ public:
 	* Sends the signals (inputs) through the neural network und
 	* returns the calculated output values.
 	*/
-	vector<double> calculateOutputs(vector<double> inputs);
+	const vector<double>& calculateOutputs(vector<double> inputs);
 
 	/**
 	* Returns the last output values
 	*/
-	vector<double> getOutputs();
+	const vector<double>& getOutputs() const;
 
 	/**
 	* Applies the backpropagation algorithm to the neural network and returns the standard error.
 	*/
-	double backpropagation(vector<double> inputs, vector<double> expectedOutputs);
+	double backpropagation(const vector<double>& inputs, const vector<double>& expectedOutputs);
 
 	/**
 	* Sets the learning rate for the backpropagation algorithm.
 	*/
-	void setLearningRate(double value);
+	void setLearningRate(const double value);
 
 	/**
 	* Returns the learning rate of the backpropagation algorithm.
 	*/
-	double getLearningRate();
+	double getLearningRate() const;
 
 	/**
 	* Sets the momentum value (Trägheitsterm)
 	*/
-	void setMomentum(double value);
+	void setMomentum(const double value);
 
 	/**
 	* Returns the momentum value (Trägheitsterm)
 	*/
-	double getMomentum();
+	double getMomentum() const;
 
 	/**
 	* Sets the bias values - 0 ignores the bias
 	*/
-	void setBiasValue(double bias);
+	void setBiasValue(const double bias);
 
 	/**
 	* Returns the bias value
 	*/
-	double getBiasValue();
+	double getBiasValue() const;
 
 	/**
 	* Enables or disables the bias
 	*/
-	void setBiasStatus(bool useBias);
+	void setBiasStatus(const bool useBias);
 
 	/**
 	* Returns true if the bias value is enabled
 	*/
-	bool getBiasStatus();
+	bool getBiasStatus() const;
 
 	/**
 	* Saves the neural network in an XML file
 	*/
-	bool saveFile(string filename);
+	bool saveFile(const string& filename);
 
 	/**
 	* Loads the neural network from an XML file
 	*/
-	bool loadFile(string filename);
+	bool loadFile(const string& filename);
 
 	/**
 	* Sigmoid function (activation function)
 	*/
-	inline double sigmoid(double x);
+	inline double sigmoid(const double& x);
 
 	/**
 	* The first derivation of the sigmoid function
 	*/
-	inline double sigmoidDerivation(double x);
+	inline double sigmoidDerivation(const double& x);
 
 private:
 	int numInputs;
