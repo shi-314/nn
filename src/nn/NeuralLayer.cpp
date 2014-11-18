@@ -12,14 +12,16 @@
 // ============================================================= //
 // Konstruktor & Destruktor
 // ============================================================= //
-NeuralLayer::NeuralLayer() {
-	this->numNeurons = 0;
+NeuralLayer::NeuralLayer()
+	: numNeurons(0)
+{
 }
 
-NeuralLayer::NeuralLayer(int numNeurons, int numInputsPerNeuron, bool hasBias) {
-	this->hasBias = hasBias;
-	this->numNeurons = numNeurons;
-	for (int n = 0; n < numNeurons; ++n) {
+NeuralLayer::NeuralLayer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias)
+	: numNeurons(numNeurons),
+	  hasBias(hasBias)
+{
+	for (size_t n = 0; n < numNeurons; ++n) {
 		this->neurons.push_back(Neuron(numInputsPerNeuron, hasBias));
 	}
 }

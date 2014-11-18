@@ -16,7 +16,7 @@ class NeuralLayer {
 public:
 	NeuralLayer();
 
-	NeuralLayer(int numNeurons, int numInputsPerNeuron, bool hasBias = true);
+	NeuralLayer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias = true);
 
 	~NeuralLayer();
 
