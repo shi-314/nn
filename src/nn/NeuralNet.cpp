@@ -25,8 +25,19 @@ NeuralNet::NeuralNet()
 	this->useBias = true;
 }
 
+NeuralNet::NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers, size_t neuronsPerHL)
+	: numInputs(inputs),
+	  numOutputs(outputs), 
+	  numHiddenLayers(hiddenLayers), 
+	  numNeuronsPerHL(neuronsPerHL),
+	  momentum(0.9),
+	  learningRate(1),
+	  biasValue(1),
+	  useBias(true)
+{
+}
+
 NeuralNet::~NeuralNet() {
-	srand(time(0));
 }
 
 void NeuralNet::setNumInputs(size_t n) {

@@ -13,19 +13,10 @@
 
 using namespace std;
 
-const int numInputs = 2;
-const int numOutputs = 1;
-const int numHiddenLayers = 1;
-const int numHLNeurons = 2;
-
 int main() {
 	srand(time(0));
 
-	NeuralNet net;
-	net.setNumInputs(numInputs);
-	net.setNumOutputs(numOutputs);
-	net.setNumHiddenLayers(numHiddenLayers);
-	net.setNumNeuronsPerHL(numHLNeurons);
+	NeuralNet net(2, 1, 1, 2);
 	// net.setBiasStatus(false);
 
 	net.setLearningRate(0.5);
