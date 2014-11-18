@@ -16,7 +16,7 @@ class Neuron {
 public:
 	Neuron();
 
-	Neuron(int numInputs, bool hasBias = true);
+	Neuron(const size_t numInputs, const bool hasBias = true);
 
 	~Neuron();
 
@@ -33,7 +33,7 @@ public:
 	/**
 	* The number of inputs of the neuron
 	*/
-	int numInputs;
+	size_t numInputs;
 
 	/**
 	* The sum of all the inputs

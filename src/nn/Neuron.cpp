@@ -9,12 +9,13 @@
 
 #include "NeuralNetModule.h"
 
-Neuron::Neuron() {
-	this->netInput = 0;
-	this->numInputs = 0;
+Neuron::Neuron()
+	: netInput(0),
+	  numInputs(0)
+{
 }
 
-Neuron::Neuron(int numInputs, bool hasBias) {
+Neuron::Neuron(const size_t numInputs, const bool hasBias) {
 	this->netInput = 0;
 	this->numInputs = numInputs;
 
@@ -25,7 +26,7 @@ Neuron::Neuron(int numInputs, bool hasBias) {
 	double XMin = -1;
 	double XMax = 1;
 
-	for (int n = 0; n < this->numInputs; ++n) {
+	for (size_t n = 0; n < this->numInputs; ++n) {
 		double x = randomDouble(XMin, XMax);
 		this->weights.push_back(x);
 		this->deltaWeights.push_back(0);

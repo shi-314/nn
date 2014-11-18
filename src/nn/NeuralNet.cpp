@@ -347,7 +347,7 @@ bool NeuralNet::loadFile(const string& filename) {
 	int bias = 1;
 	double biasV = 1;
 	if (elemNN->Attribute("useBias", (int *) &bias) != 0) {
-		this->useBias = (bool) bias;
+		this->useBias = bias > 0;
 	}
 
 	if (elemNN->Attribute("biasValue", (double *) &biasV) != 0) {

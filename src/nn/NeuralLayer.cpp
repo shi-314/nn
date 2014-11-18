@@ -13,7 +13,8 @@
 // Konstruktor & Destruktor
 // ============================================================= //
 NeuralLayer::NeuralLayer()
-	: numNeurons(0)
+	: numNeurons(0),
+	  hasBias(true)
 {
 }
 
