@@ -45,7 +45,7 @@ void NeuralNet::setNumInputs(const size_t n) {
 	this->numInputs = n;
 }
 
-int NeuralNet::getNumInputs() const {
+size_t NeuralNet::getNumInputs() const {
 	return this->numInputs;
 }
 
@@ -53,7 +53,7 @@ void NeuralNet::setNumOutputs(const size_t n) {
 	this->numOutputs = n;
 }
 
-int NeuralNet::getNumOutputs() const {
+size_t NeuralNet::getNumOutputs() const {
 	return this->numOutputs;
 }
 
@@ -61,7 +61,7 @@ void NeuralNet::setNumHiddenLayers(const size_t n) {
 	this->numHiddenLayers = n;
 }
 
-int NeuralNet::getNumHiddenLayers() const {
+size_t NeuralNet::getNumHiddenLayers() const {
 	return this->numHiddenLayers;
 }
 
@@ -69,7 +69,7 @@ void NeuralNet::setNumNeuronsPerHL(const size_t n) {
 	this->numNeuronsPerHL = n;
 }
 
-int NeuralNet::getNumNeuronsPerHL() const {
+size_t NeuralNet::getNumNeuronsPerHL() const {
 	return this->numNeuronsPerHL;
 }
 
@@ -79,7 +79,7 @@ void NeuralNet::createNet() {
 	this->layers.push_back(inputLayer);
 
 	// Create the hidden layers
-	for (int n = 0; n < this->numHiddenLayers; ++n) {
+	for (size_t n = 0; n < this->numHiddenLayers; ++n) {
 		if (n == 0) {
 			NeuralLayer hiddenLayer(this->numNeuronsPerHL, this->numInputs, this->useBias);
 			this->layers.push_back(hiddenLayer);
@@ -114,7 +114,7 @@ const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
 		return outputs;
 
 	// For each layer
-	for (int i = 0; i < (int) this->layers.size(); ++i) {
+	for (size_t i = 0; i < this->layers.size(); ++i) {
 		if (i > 0) // The input is the output of the last layer
 			inputs = this->outputs;
 
@@ -122,17 +122,17 @@ const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
 
 		// Calculate the outputs = sigmoid(sum of (inputs * weights))
 
-		for (int j = 0; j < this->layers[i].numNeurons; ++j) {
+		for (size_t j = 0; j < this->layers[i].numNeurons; ++j) {
 			double netinput = 0;
 
-			int numInputs = this->layers[i].neurons[j].numInputs;
+			size_t numInputs = this->layers[i].neurons[j].numInputs;
 
 			// For each weight
 			// Calculate the net input (sum of inputs * weights)
 
 			// Ignore the input layer
 			if (i > 0) {
-				for (unsigned int k = 0; k < inputs.size(); ++k)
+				for (size_t k = 0; k < inputs.size(); ++k)
 					netinput += this->layers[i].neurons[j].weights[k] * inputs[k];
 			} else {
 				netinput = inputs[j];
@@ -166,7 +166,7 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
 	// Calculate and correct the errors of the output unit
 	//
 
-	for (int i = 0; i < this->numOutputs; i++) {
+	for (size_t i = 0; i < this->numOutputs; i++) {
 		// Err = y - aj = y - g(net_j)
 		double err = expectedOutputs[i] - this->outputs[i];
 		standardError += err;
@@ -179,8 +179,8 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
 
 		// Correct the weights between the output layer and the hidden layer
 
-		int numInputsI = this->layers[this->numHiddenLayers + 1].neurons[i].numInputs;
-		for (int j = 0; j < numInputsI; j++) {
+		size_t numInputsI = this->layers[this->numHiddenLayers + 1].neurons[i].numInputs;
+		for (size_t j = 0; j < numInputsI; j++) {
 			double net_j;
 
 			// Does the layer have a bias and is j the bias neuron?
@@ -204,12 +204,12 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
 	// Calculate and correct the errors of the hidden layers
 	//
 
-	for (int L = this->numHiddenLayers; L > 0; L--) {
-		for (int j = 0; j < this->numNeuronsPerHL; j++) {
+	for (size_t L = this->numHiddenLayers; L > 0; L--) {
+		for (size_t j = 0; j < this->numNeuronsPerHL; j++) {
 			double err_j = 0;
 
 			// Calculate the errors of the neuron j
-			for (int i = 0; i < this->layers[L + 1].numNeurons; i++) {
+			for (size_t i = 0; i < this->layers[L + 1].numNeurons; i++) {
 				err_j += this->layers[L + 1].neurons[i].weights[j] * delta_i[i];
 			}
 
@@ -219,8 +219,8 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
 
 			// Correct the weights between the hidden layer and the predecessor layer
 
-			int numInputsJ = this->layers[L].neurons[j].numInputs;
-			for (int k = 0; k < numInputsJ; k++) {
+			size_t numInputsJ = this->layers[L].neurons[j].numInputs;
+			for (size_t k = 0; k < numInputsJ; k++) {
 				double net_k;
 
 				// Does the layer have a bias and is j the bias neuron?
@@ -285,7 +285,7 @@ bool NeuralNet::saveFile(const string& filename) {
 	xml_content += doubleToString(this->biasValue);
 	xml_content += "\">\n";
 
-	for (int layer = 0; layer < this->numHiddenLayers + 2; layer++) {
+	for (size_t layer = 0; layer < this->numHiddenLayers + 2; layer++) {
 		if (layer == 0)
 			xml_content += "\t<Layer type=\"input\" ";
 		else if (layer == this->numHiddenLayers + 1)
@@ -298,9 +298,9 @@ bool NeuralNet::saveFile(const string& filename) {
 		else
 			xml_content += "hasBias=\"0\">\n";
 
-		for (int neuron = 0; neuron < this->layers[layer].numNeurons; neuron++) {
+		for (size_t neuron = 0; neuron < this->layers[layer].numNeurons; neuron++) {
 			xml_content += "\t\t<Neuron>\n";
-			for (int weight = 0; weight < this->layers[layer].neurons[neuron].numInputs; weight++) {
+			for (size_t weight = 0; weight < this->layers[layer].neurons[neuron].numInputs; weight++) {
 				xml_content += "\t\t\t<weight value=\"";
 				xml_content += doubleToString(this->layers[layer].neurons[neuron].weights[weight]);
 				xml_content += "\" />\n";
@@ -355,7 +355,7 @@ bool NeuralNet::loadFile(const string& filename) {
 	}
 
 	// For each layer
-	for (int i = 0; ; i++) {
+	for (size_t i = 0; ; i++) {
 		hLayer = hRoot.Child(i);
 		elemLayer = hLayer.Element();
 		if (elemLayer == 0)
@@ -374,7 +374,7 @@ bool NeuralNet::loadFile(const string& filename) {
 			layer.hasBias = false;
 
 		// For each neuron
-		for (int j = 0; ; j++) {
+		for (size_t j = 0; ; j++) {
 			hNeuron = hLayer.Child("Neuron", j);
 			elemNeuron = hNeuron.Element();
 			if (elemNeuron == 0)
@@ -382,7 +382,7 @@ bool NeuralNet::loadFile(const string& filename) {
 
 			Neuron neuron;
 
-			for (int w = 0; ; w++) {
+			for (size_t w = 0; ; w++) {
 				hWeight = hNeuron.Child("weight", w);
 				elemWeight = hWeight.Element();
 				if (elemWeight == 0)

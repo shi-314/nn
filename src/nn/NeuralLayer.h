@@ -23,7 +23,7 @@ public:
 	/**
 	* Number of neurons in this layer
 	*/
-	int numNeurons;
+	size_t numNeurons;
 
 	/**
 	* The neurons of the layer.

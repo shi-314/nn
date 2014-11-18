@@ -25,7 +25,7 @@ public:
 	/**
 	* Returns the number of input units
 	*/
-	int getNumInputs() const;
+	size_t getNumInputs() const;
 
 	/**
 	* Sets the number of output units
@@ -35,7 +35,7 @@ public:
 	/**
 	* Returns the number of output units
 	*/
-	int getNumOutputs() const;
+	size_t getNumOutputs() const;
 
 	/**
 	* Sets the number of hidden layers
@@ -45,7 +45,7 @@ public:
 	/**
 	* Returns the number of hidden layers
 	*/
-	int getNumHiddenLayers() const;
+	size_t getNumHiddenLayers() const;
 
 	/**
 	* Sets the number of neurons in each hidden layer
@@ -55,7 +55,7 @@ public:
 	/**
 	* Returns the number of neurons in each hidden layer
 	*/
-	int getNumNeuronsPerHL() const;
+	size_t getNumNeuronsPerHL() const;
 
 	/**
 	* Creates the neural network with the previously defined dimensions
@@ -139,10 +139,10 @@ public:
 	inline double sigmoidDerivation(const double& x);
 
 private:
-	int numInputs;
-	int numOutputs;
-	int numHiddenLayers;
-	int numNeuronsPerHL;
+	size_t numInputs;
+	size_t numOutputs;
+	size_t numHiddenLayers;
+	size_t numNeuronsPerHL;
 
 	double momentum;
 	double learningRate;
