@@ -33,3 +33,9 @@
 # Visual Studio
 nn/*
 *.TMP
+
+# Binaries
+build/*
+
+# YCM
+.ycm_extra_conf.pyc
