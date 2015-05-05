@@ -14,31 +14,31 @@ using namespace std;
 
 class Neuron {
 public:
-	Neuron();
+    Neuron();
 
-	Neuron(const size_t numInputs, const bool hasBias = true);
+    Neuron(const size_t numInputs, const bool hasBias = true);
 
-	~Neuron();
+    ~Neuron();
 
-	/**
-	* Weights of the neuron / synapse in biological terms
-	*/
-	vector<double> weights;
+    /**
+    * Weights of the neuron / synapse in biological terms
+    */
+    vector<double> weights;
 
-	/**
-	* The last changes of the weights - optimisation for the backpropagation algorithm
-	*/
-	vector<double> deltaWeights;
+    /**
+    * The last changes of the weights - optimisation for the backpropagation algorithm
+    */
+    vector<double> deltaWeights;
 
-	/**
-	* The number of inputs of the neuron
-	*/
-	size_t numInputs;
+    /**
+    * The number of inputs of the neuron
+    */
+    size_t numInputs;
 
-	/**
-	* The sum of all the inputs
-	*/
-	double netInput;
+    /**
+    * The sum of all the inputs
+    */
+    double netInput;
 };
 
 #endif

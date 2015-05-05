@@ -14,26 +14,26 @@ using namespace std;
 
 class NeuralLayer {
 public:
-	NeuralLayer();
+    NeuralLayer();
 
-	NeuralLayer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias = true);
+    NeuralLayer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias = true);
 
-	~NeuralLayer();
+    ~NeuralLayer();
 
-	/**
-	* Number of neurons in this layer
-	*/
-	size_t numNeurons;
+    /**
+    * Number of neurons in this layer
+    */
+    size_t numNeurons;
 
-	/**
-	* The neurons of the layer.
-	*/
-	vector<Neuron> neurons;
+    /**
+    * The neurons of the layer.
+    */
+    vector<Neuron> neurons;
 
-	/**
-	* True if the layer has an additional bias value.
-	*/
-	bool hasBias;
+    /**
+    * True if the layer has an additional bias value.
+    */
+    bool hasBias;
 };
 
 #endif
