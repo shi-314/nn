@@ -30,7 +30,8 @@ NeuralNet::NeuralNet()
     this->useBias = true;
 }
 
-NeuralNet::NeuralNet(const size_t inputs, const size_t outputs, const size_t hiddenLayers, const size_t neuronsPerHL)
+NeuralNet::NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers,
+    size_t neuronsPerHL)
     : numInputs(inputs),
       numOutputs(outputs), 
       numHiddenLayers(hiddenLayers), 
@@ -43,10 +44,7 @@ NeuralNet::NeuralNet(const size_t inputs, const size_t outputs, const size_t hid
     this->createNet();
 }
 
-NeuralNet::~NeuralNet() {
-}
-
-void NeuralNet::setNumInputs(const size_t n) {
+void NeuralNet::setNumInputs(size_t n) {
     this->numInputs = n;
 }
 
@@ -54,7 +52,7 @@ size_t NeuralNet::getNumInputs() const {
     return this->numInputs;
 }
 
-void NeuralNet::setNumOutputs(const size_t n) {
+void NeuralNet::setNumOutputs(size_t n) {
     this->numOutputs = n;
 }
 
@@ -62,7 +60,7 @@ size_t NeuralNet::getNumOutputs() const {
     return this->numOutputs;
 }
 
-void NeuralNet::setNumHiddenLayers(const size_t n) {
+void NeuralNet::setNumHiddenLayers(size_t n) {
     this->numHiddenLayers = n;
 }
 
@@ -70,7 +68,7 @@ size_t NeuralNet::getNumHiddenLayers() const {
     return this->numHiddenLayers;
 }
 
-void NeuralNet::setNumNeuronsPerHL(const size_t n) {
+void NeuralNet::setNumNeuronsPerHL(size_t n) {
     this->numNeuronsPerHL = n;
 }
 
@@ -99,13 +97,13 @@ void NeuralNet::createNet() {
     this->layers.push_back(outputLayer);
 }
 
-double NeuralNet::sigmoid(const double& x) {
+double NeuralNet::sigmoid(double x) {
     //double response = 1;
     //return 1/(1+exp(-x/response));
     return 1 / (1 + exp(-x));
 }
 
-double NeuralNet::sigmoidDerivation(const double& x) {
+double NeuralNet::sigmoidDerivation(double x) {
     double gx = this->sigmoid(x);
     return gx * (1 - gx);
 }
@@ -247,7 +245,7 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
     return standardError;
 }
 
-void NeuralNet::setLearningRate(const double value) {
+void NeuralNet::setLearningRate(double value) {
     this->learningRate = value;
 }
 
@@ -255,7 +253,7 @@ double NeuralNet::getLearningRate() const {
     return this->learningRate;
 }
 
-void NeuralNet::setMomentum(const double value) {
+void NeuralNet::setMomentum(double value) {
     this->momentum = value;
 }
 
@@ -263,7 +261,7 @@ double NeuralNet::getMomentum() const {
     return this->momentum;
 }
 
-void NeuralNet::setBiasValue(const double bias) {
+void NeuralNet::setBiasValue(double bias) {
     this->biasValue = bias;
 }
 

@@ -23,8 +23,6 @@ public:
 
     NeuralLayer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias = true);
 
-    ~NeuralLayer();
-
     /**
     * Number of neurons in this layer
     */

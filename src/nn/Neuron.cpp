@@ -16,7 +16,7 @@ Neuron::Neuron()
 {
 }
 
-Neuron::Neuron(const size_t numInputs, const bool hasBias) {
+Neuron::Neuron(size_t numInputs, bool hasBias) {
     this->netInput = 0;
     this->numInputs = numInputs;
 

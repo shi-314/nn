@@ -19,7 +19,7 @@ class Neuron {
 public:
     Neuron();
 
-    Neuron(const size_t numInputs, const bool hasBias = true);
+    Neuron(size_t numInputs, bool hasBias = true);
 
     ~Neuron();
 

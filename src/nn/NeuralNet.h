@@ -20,14 +20,13 @@ using namespace std;
 class NeuralNet {
 public:
     NeuralNet();
-    NeuralNet(const size_t inputs, const size_t outputs, const size_t hiddenLayers, const size_t neuronsPerHL);
-
-    ~NeuralNet();
+    NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers,
+        size_t neuronsPerHL);
 
     /**
     * Sets the number of input units
     */
-    void setNumInputs(const size_t n);
+    void setNumInputs(size_t n);
 
     /**
     * Returns the number of input units
@@ -37,7 +36,7 @@ public:
     /**
     * Sets the number of output units
     */
-    void setNumOutputs(const size_t n);
+    void setNumOutputs(size_t n);
 
     /**
     * Returns the number of output units
@@ -47,7 +46,7 @@ public:
     /**
     * Sets the number of hidden layers
     */
-    void setNumHiddenLayers(const size_t n);
+    void setNumHiddenLayers(size_t n);
 
     /**
     * Returns the number of hidden layers
@@ -57,7 +56,7 @@ public:
     /**
     * Sets the number of neurons in each hidden layer
     */
-    void setNumNeuronsPerHL(const size_t n);
+    void setNumNeuronsPerHL(size_t n);
 
     /**
     * Returns the number of neurons in each hidden layer
@@ -88,7 +87,7 @@ public:
     /**
     * Sets the learning rate for the backpropagation algorithm.
     */
-    void setLearningRate(const double value);
+    void setLearningRate(double value);
 
     /**
     * Returns the learning rate of the backpropagation algorithm.
@@ -98,7 +97,7 @@ public:
     /**
     * Sets the momentum value (Trägheitsterm)
     */
-    void setMomentum(const double value);
+    void setMomentum(double value);
 
     /**
     * Returns the momentum value (Trägheitsterm)
@@ -108,7 +107,7 @@ public:
     /**
     * Sets the bias values - 0 ignores the bias
     */
-    void setBiasValue(const double bias);
+    void setBiasValue(double bias);
 
     /**
     * Returns the bias value
@@ -118,7 +117,7 @@ public:
     /**
     * Enables or disables the bias
     */
-    void setBiasStatus(const bool useBias);
+    void setBiasStatus(bool useBias);
 
     /**
     * Returns true if the bias value is enabled
@@ -138,12 +137,12 @@ public:
     /**
     * Sigmoid function (activation function)
     */
-    inline double sigmoid(const double& x);
+    inline double sigmoid(double x);
 
     /**
     * The first derivation of the sigmoid function
     */
-    inline double sigmoidDerivation(const double& x);
+    inline double sigmoidDerivation(double x);
 
 private:
     size_t numInputs;
