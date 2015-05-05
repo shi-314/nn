@@ -10,6 +10,11 @@
 #ifndef _NEURAL_LAYER_H
 #define _NEURAL_LAYER_H
 
+#include <iostream>
+#include <vector>
+
+#include "Neuron.h"
+
 using namespace std;
 
 class NeuralLayer {

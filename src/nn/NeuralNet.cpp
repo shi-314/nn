@@ -8,7 +8,12 @@
 * @date 22.03.2009
 */
 
-#include "NeuralNetModule.h"
+#include "NeuralNet.h"
+#include "Utils.h"
+
+#include <tinyxml/tinyxml.h>
+
+#include <math.h>
 
 NeuralNet::NeuralNet()
     : numInputs(0),

@@ -8,8 +8,11 @@
 * @date 28.04.2009
 */
 
+#include <nn/NeuralNet.h>
+
 #include <iostream>
-#include <nn/NeuralNetModule.h>
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 

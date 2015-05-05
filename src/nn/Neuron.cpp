@@ -7,11 +7,12 @@
 * @date 22.03.2009
 */
 
-#include "NeuralNetModule.h"
+#include "Neuron.h"
+#include "Utils.h"
 
 Neuron::Neuron()
-    : netInput(0),
-      numInputs(0)
+    : numInputs(0),
+      netInput(0)
 {
 }
 

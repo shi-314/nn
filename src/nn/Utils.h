@@ -10,6 +10,11 @@
 #ifndef _UTILS_H
 #define _UTILS_H
 
+#include <bitset>
+#include <iostream>
+#include <limits>
+#include <vector>
+
 using namespace std;
 
 int randomInt(int min, int max);

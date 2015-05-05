@@ -7,7 +7,7 @@
 * @date 22.03.2009
 */
 
-#include "NeuralNetModule.h"
+#include "NeuralLayer.h"
 
 // ============================================================= //
 // Konstruktor & Destruktor

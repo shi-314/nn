@@ -10,6 +10,11 @@
 #ifndef _NEURAL_NET_H
 #define _NEURAL_NET_H
 
+#include <iostream>
+#include <vector>
+
+#include "NeuralLayer.h"
+
 using namespace std;
 
 class NeuralNet {

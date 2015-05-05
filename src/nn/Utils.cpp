@@ -7,7 +7,13 @@
 * @date 27.03.2009
 */
 
-#include "NeuralNetModule.h"
+#include "Utils.h"
+
+#include <math.h>
+#include <sstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 int randomInt(int min, int max) {
     return min + rand() * (max - min) / RAND_MAX;
@@ -49,7 +55,7 @@ double roundDouble(double number, int digits) {
 
 int binVecToInt(vector<double> binVec) {
     char bin[16] = "";
-    for (int i = 0; i < binVec.size(); i++)
+    for (size_t i = 0; i < binVec.size(); i++)
         bin[i] = (int) roundDouble(binVec[i], 0) + '0';
 
     int b, k, m, n;

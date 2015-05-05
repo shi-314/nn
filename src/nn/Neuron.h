@@ -10,6 +10,9 @@
 #ifndef _NEURON_H
 #define _NEURON_H
 
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
 class Neuron {
