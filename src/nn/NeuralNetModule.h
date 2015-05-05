@@ -20,7 +20,7 @@
 #include <sstream>
 #include <string>
 
-#include "tinyxml/tinyxml.h"
+#include <tinyxml/tinyxml.h>
 
 #include "Utils.h"
 #include "Neuron.h"
