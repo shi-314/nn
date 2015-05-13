@@ -39,3 +39,6 @@ build/*
 
 # YCM
 .ycm_extra_conf.pyc
+
+# Exported neural networks
+export/*

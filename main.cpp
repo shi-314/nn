@@ -59,8 +59,8 @@ int main() {
         }
     }
 
-    if(!net.saveFile("export/nn.json"))
-        cout << "Could not export neural network" << endl;
+    if(!net.save("export/nn.json"))
+        cout << "Could not export file" << endl;
 
     // Let's test the neural network :)
 

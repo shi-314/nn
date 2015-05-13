@@ -14,6 +14,7 @@
 #include <tinyxml/tinyxml.h>
 #include <json/json.h>
 
+#include <fstream>
 #include <math.h>
 
 NeuralNet::NeuralNet()
@@ -319,6 +320,50 @@ bool NeuralNet::saveFile(const string& filename) {
 
     fwrite(xml_content.c_str(), xml_content.length(), 1, file);
     fclose(file);
+    return true;
+}
+
+bool NeuralNet::save(const string& filename) {
+    Json::Value jsonNN;
+    jsonNN["useBias"] = this->useBias;
+    jsonNN["biasValue"] = this->biasValue;
+    jsonNN["layers"] = Json::Value(Json::arrayValue);
+
+    for (size_t layer = 0; layer < this->numHiddenLayers + 2; layer++) {
+        Json::Value jsonLayer;
+
+        if (layer == 0)
+            jsonLayer["type"] = "input";
+        else if (layer == this->numHiddenLayers + 1)
+            jsonLayer["type"] = "output";
+        else
+            jsonLayer["type"] = "hidden";
+
+        jsonLayer["hasBias"] = this->layers[layer].hasBias;
+        jsonLayer["neurons"] = Json::Value(Json::arrayValue);
+
+        for (size_t neuron = 0; neuron < this->layers[layer].numNeurons; neuron++) {
+            Json::Value jsonNeuron;
+            jsonNeuron["weights"] = Json::Value(Json::arrayValue);
+
+            for (size_t weight = 0; weight < this->layers[layer].neurons[neuron].numInputs; weight++) {
+                jsonNeuron["weights"].append(this->layers[layer].neurons[neuron].weights[weight]);
+            }
+
+            jsonLayer["neurons"].append(jsonNeuron);
+        }
+
+        jsonNN["layers"].append(jsonLayer);
+    }
+
+    ofstream out(filename.c_str());
+    if(!out.is_open())
+        return false;
+
+    Json::FastWriter jsonWriter;
+    out << jsonWriter.write(jsonNN);
+    out.close();
+
     return true;
 }
 

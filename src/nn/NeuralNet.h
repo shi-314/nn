@@ -128,6 +128,7 @@ public:
     * Saves the neural network in an XML file
     */
     bool saveFile(const string& filename);
+    bool save(const string& filename);
 
     /**
     * Loads the neural network from an XML file
