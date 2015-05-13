@@ -59,7 +59,8 @@ int main() {
         }
     }
 
-    net.saveFile("Brains/xor.xml");
+    if(!net.saveFile("export/nn.json"))
+        cout << "Could not export neural network" << endl;
 
     // Let's test the neural network :)
 

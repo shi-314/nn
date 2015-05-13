@@ -12,6 +12,7 @@
 #include "Utils.h"
 
 #include <tinyxml/tinyxml.h>
+#include <json/json.h>
 
 #include <math.h>
 
