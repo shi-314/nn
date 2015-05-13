@@ -1,8 +1,8 @@
 /**
 * Neural Net
 *
-* This is example shows the usage of nn by creating a neural network that learns the XOR function with
-* the backpropagation algorithm.
+* This is example shows the usage of nn by creating a neural network that learns the XOR function
+* with the backpropagation algorithm.
 *
 * @author Shivan Taher
 * @date 28.04.2009

@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 2.8.4)
 project(nn)
 
-set(SOURCE_FILES
+find_package (Boost 1.54 COMPONENTS program_options REQUIRED)
+include_directories (${Boost_INCLUDE_DIR})
+
+set (SOURCE_FILES
     main.cpp
     src/nn/NeuralLayer.cpp
     src/nn/NeuralNet.cpp
@@ -12,7 +15,8 @@ set(SOURCE_FILES
     thirdparty/tinyxml/tinyxmlparser.cpp
 )
 
-add_executable(nn ${SOURCE_FILES})
+add_executable (nn ${SOURCE_FILES})
+target_link_libraries (nn ${Boost_LIBRARIES})
 
 include_directories (
     src/

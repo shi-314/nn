@@ -1,7 +1,7 @@
 #!/bin/sh
 
-rm -rf build/*
-clear
+# rm -rf build/*
+# clear
 cmake -Bbuild -H.
 make -C build/
 echo
