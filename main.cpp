@@ -30,25 +30,15 @@ int main() {
 
     // Inputs
 
-    vector<double> inp1, inp2, inp3, inp4;
-    inp1.push_back(0);
-    inp1.push_back(0);
-
-    inp2.push_back(1);
-    inp2.push_back(1);
-
-    inp3.push_back(1);
-    inp3.push_back(0);
-
-    inp4.push_back(0);
-    inp4.push_back(1);
+    vector<double> inp1 = {0, 0},
+                   inp2 = {1, 1},
+                   inp3 = {1, 0},
+                   inp4 = {0, 1};
 
     // Outputs
 
     vector<double> outputs;
-    vector<double> out0, out1;
-    out0.push_back(0);
-    out1.push_back(1);
+    vector<double> out0 = {0}, out1 = {1};
 
     double error = 0;
     for (int X = 0; X <= 15000; X++) {
