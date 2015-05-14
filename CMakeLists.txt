@@ -10,11 +10,6 @@ set (SOURCE_FILES
     src/nn/NeuralNet.cpp
     src/nn/Neuron.cpp src/nn/Utils.cpp
 
-    thirdparty/tinyxml/tinyxml.cpp
-    thirdparty/tinyxml/tinyxmlerror.cpp
-    thirdparty/tinyxml/tinystr.cpp
-    thirdparty/tinyxml/tinyxmlparser.cpp
-
     thirdparty/json/json.cpp
 )
 

@@ -133,7 +133,7 @@ public:
     /**
     * Loads the neural network from an XML file
     */
-    bool loadFile(const string& filename);
+    bool load(const string& filename);
 
     /**
     * Sigmoid function (activation function)
@@ -158,6 +158,7 @@ private:
 
     vector<NeuralLayer> layers;
     vector<double> outputs;
+    string name;
 };
 
 #endif

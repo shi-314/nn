@@ -11,7 +11,6 @@
 #include "NeuralNet.h"
 #include "Utils.h"
 
-#include <tinyxml/tinyxml.h>
 #include <json/json.h>
 
 #include <fstream>
@@ -19,24 +18,22 @@
 
 NeuralNet::NeuralNet()
     : numInputs(0),
-      numOutputs(0), 
-      numHiddenLayers(0), 
+      numOutputs(0),
+      numHiddenLayers(0),
       numNeuronsPerHL(0),
       momentum(0.9),
       learningRate(1),
       biasValue(1),
-      useBias(true)
+      useBias(true),
+      name("")
 {
-    this->learningRate = 1;
-    this->biasValue = 1;
-    this->useBias = true;
 }
 
 NeuralNet::NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers,
     size_t neuronsPerHL)
     : numInputs(inputs),
-      numOutputs(outputs), 
-      numHiddenLayers(hiddenLayers), 
+      numOutputs(outputs),
+      numHiddenLayers(hiddenLayers),
       numNeuronsPerHL(neuronsPerHL),
       momentum(0.9),
       learningRate(1),
@@ -279,51 +276,9 @@ bool NeuralNet::getBiasStatus() const {
     return this->useBias;
 }
 
-bool NeuralNet::saveFile(const string& filename) {
-    FILE *file = fopen(filename.c_str(), "w+");
-    if (!file)
-        return false;
-    string xml_content = "<?xml version=\"1.0\" ?>\n";
-    xml_content += "<NeuralNet useBias=\"";
-    xml_content += (this->useBias == true ? "1" : "0");
-    xml_content += "\" biasValue=\"";
-    xml_content += doubleToString(this->biasValue);
-    xml_content += "\">\n";
-
-    for (size_t layer = 0; layer < this->numHiddenLayers + 2; layer++) {
-        if (layer == 0)
-            xml_content += "\t<Layer type=\"input\" ";
-        else if (layer == this->numHiddenLayers + 1)
-            xml_content += "\t<Layer type=\"output\" ";
-        else
-            xml_content += "\t<Layer type=\"hidden\" ";
-
-        if (this->layers[layer].hasBias)
-            xml_content += "hasBias=\"1\">\n";
-        else
-            xml_content += "hasBias=\"0\">\n";
-
-        for (size_t neuron = 0; neuron < this->layers[layer].numNeurons; neuron++) {
-            xml_content += "\t\t<Neuron>\n";
-            for (size_t weight = 0; weight < this->layers[layer].neurons[neuron].numInputs; weight++) {
-                xml_content += "\t\t\t<weight value=\"";
-                xml_content += doubleToString(this->layers[layer].neurons[neuron].weights[weight]);
-                xml_content += "\" />\n";
-            }
-            xml_content += "\t\t</Neuron>\n";
-        }
-
-        xml_content += "\t</Layer>\n";
-    }
-
-    xml_content += "</NeuralNet>";
-
-    fwrite(xml_content.c_str(), xml_content.length(), 1, file);
-    fclose(file);
-    return true;
-}
-
 bool NeuralNet::save(const string& filename) {
+    cout << "Exporting neural network " << this->name << " to " << filename << " ..." << endl;
+
     Json::Value jsonNN;
     jsonNN["useBias"] = this->useBias;
     jsonNN["biasValue"] = this->biasValue;
@@ -347,9 +302,8 @@ bool NeuralNet::save(const string& filename) {
             Json::Value jsonNeuron;
             jsonNeuron["weights"] = Json::Value(Json::arrayValue);
 
-            for (size_t weight = 0; weight < layer.neurons[neuron].numInputs; weight++) {
+            for (size_t weight = 0; weight < layer.neurons[neuron].numInputs; weight++)
                 jsonNeuron["weights"].append(layer.neurons[neuron].weights[weight]);
-            }
 
             jsonLayer["neurons"].append(jsonNeuron);
         }
@@ -358,7 +312,7 @@ bool NeuralNet::save(const string& filename) {
     }
 
     ofstream out(filename.c_str());
-    if(!out.is_open())
+    if (!out.is_open())
         return false;
 
     Json::FastWriter jsonWriter;
@@ -368,104 +322,8 @@ bool NeuralNet::save(const string& filename) {
     return true;
 }
 
-bool NeuralNet::loadFile(const string& filename) {
-    TiXmlDocument doc(filename.c_str());
-    if (!doc.LoadFile())
-        return false;
-
-    this->layers.clear();
-    this->numHiddenLayers = 0;
-    this->numInputs = 0;
-    this->numNeuronsPerHL = 0;
-    this->numOutputs = 0;
-
-    TiXmlHandle hDoc(&doc);
-    TiXmlElement *elemLayer, *elemNeuron, *elemWeight, *elemNN;
-    TiXmlHandle hRoot(0), hLayer(0), hNeuron(0), hWeight(0);
-
-    elemLayer = hDoc.FirstChildElement().Element();
-
-    // should always have a valid root but handle gracefully if it doesn't
-
-    if (!elemLayer) return false;
-    string m_name = elemLayer->Value();
-
-    // save this for later
-    hRoot = TiXmlHandle(elemLayer);
-    elemNN = hRoot.Element();
-
-    int bias = 1;
-    double biasV = 1;
-    if (elemNN->Attribute("useBias", (int *) &bias) != 0) {
-        this->useBias = bias > 0;
-    }
-
-    if (elemNN->Attribute("biasValue", (double *) &biasV) != 0) {
-        this->biasValue = biasV;
-    }
-
-    // For each layer
-    for (size_t i = 0; ; i++) {
-        hLayer = hRoot.Child(i);
-        elemLayer = hLayer.Element();
-        if (elemLayer == 0)
-            break;
-
-
-        int layerBias = 0;
-        const char *layerType = elemLayer->Attribute("type");
-        elemLayer->Attribute("hasBias", (int *) &layerBias);
-
-        NeuralLayer layer;
-
-        if (layerBias == 1)
-            layer.hasBias = true;
-        else
-            layer.hasBias = false;
-
-        // For each neuron
-        for (size_t j = 0; ; j++) {
-            hNeuron = hLayer.Child("Neuron", j);
-            elemNeuron = hNeuron.Element();
-            if (elemNeuron == 0)
-                break;
-
-            Neuron neuron;
-
-            for (size_t w = 0; ; w++) {
-                hWeight = hNeuron.Child("weight", w);
-                elemWeight = hWeight.Element();
-                if (elemWeight == 0)
-                    break;
-
-                double weight = 0;
-                elemWeight->Attribute("value", (double *) &weight);
-
-                neuron.numInputs++;
-                neuron.weights.push_back(weight);
-                neuron.deltaWeights.push_back(0);
-            }
-
-            layer.neurons.push_back(neuron);
-            layer.numNeurons++;
-        }
-
-        this->layers.push_back(layer);
-
-
-        if (i == 0) {
-            this->numInputs = layer.numNeurons;
-            //cout<<"Input layer loaded with "<<this->numInputs<<" Inputs..\n\n";
-        } else if (strcmp(layerType, "hidden") == 0) {
-            this->numHiddenLayers++;
-            this->numNeuronsPerHL = layer.numNeurons;
-            //cout<<"Hidden with "<<this->numNeuronsPerHL<<" Neurons..\n\n";
-        } else if (strcmp(layerType, "output") == 0) {
-            this->numOutputs = layer.numNeurons;
-            //cout<<"Output with "<<this->numOutputs<<" Neurons..\n\n";
-        }
-        //cout<<"\n\n";
-    }
-
+bool NeuralNet::load(const string& filename) {
+    cout << "Loading " << filename << " ..." << endl;
+    cerr << "Not implemented yet" << endl;
     return true;
 }

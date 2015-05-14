@@ -19,6 +19,8 @@ using namespace std;
 
 class NeuralLayer {
 public:
+    enum Type { INPUT, HIDDEN, OUTPUT };
+
     NeuralLayer();
 
     NeuralLayer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias = true);
@@ -37,6 +39,9 @@ public:
     * True if the layer has an additional bias value.
     */
     bool hasBias;
+    
+private:
+    Type type;
 };
 
 #endif

@@ -11,7 +11,9 @@
 
 NeuralLayer::NeuralLayer()
     : numNeurons(0),
-      hasBias(true)
+      neurons(),
+      hasBias(true),
+      type()
 {
 }
 

@@ -21,6 +21,13 @@ int main() {
 
     NeuralNet net(2, 1, 1, 2);
 
+    // New api:
+    // NeuralNetwork nn("xornet");
+    // nn.add(Layer(Layer::INPUT, 2);
+    // nn.add(Layer(Layer::HIDDEN, 1);
+    // nn.add(Layer(Layer::HIDDEN, 1);
+    // nn.add(Layer(Layer::OUTPUT, 2);
+
     net.setLearningRate(0.5);
     net.setMomentum(0.9);
 
