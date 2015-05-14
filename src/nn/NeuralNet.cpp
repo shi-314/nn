@@ -2,7 +2,7 @@
 * NeuralNet
 *
 * This class can be used to create a neural network with a given size and provides the backpropagation algorithm and
-* funtions to save and load a neural network from an XML file.
+* funtions to save and load a neural network from a json file.
 *
 * @author Shivan Taher
 * @date 22.03.2009
@@ -27,6 +27,10 @@ NeuralNet::NeuralNet()
       useBias(true),
       name("")
 {
+}
+
+void NeuralNet::add(Layer& layer) {
+    this->layers.push_back(layer);
 }
 
 NeuralNet::NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers,
@@ -77,22 +81,22 @@ size_t NeuralNet::getNumNeuronsPerHL() const {
 
 void NeuralNet::createNet() {
     // Create the input layer
-    NeuralLayer inputLayer(this->numInputs, 0, false); // Ein Input-Neuron hat selber keine Inputs
+    Layer inputLayer(this->numInputs, 0, false); // Ein Input-Neuron hat selber keine Inputs
     this->layers.push_back(inputLayer);
 
     // Create the hidden layers
     for (size_t n = 0; n < this->numHiddenLayers; ++n) {
         if (n == 0) {
-            NeuralLayer hiddenLayer(this->numNeuronsPerHL, this->numInputs, this->useBias);
+            Layer hiddenLayer(this->numNeuronsPerHL, this->numInputs, this->useBias);
             this->layers.push_back(hiddenLayer);
         } else {
-            NeuralLayer hiddenLayer(this->numNeuronsPerHL, this->numNeuronsPerHL, this->useBias);
+            Layer hiddenLayer(this->numNeuronsPerHL, this->numNeuronsPerHL, this->useBias);
             this->layers.push_back(hiddenLayer);
         }
     }
 
     // Create the output layer
-    NeuralLayer outputLayer(this->numOutputs, this->numNeuronsPerHL, this->useBias);
+    Layer outputLayer(this->numOutputs, this->numNeuronsPerHL, this->useBias);
     this->layers.push_back(outputLayer);
 }
 
@@ -285,7 +289,7 @@ bool NeuralNet::save(const string& filename) {
     jsonNN["layers"] = Json::Value(Json::arrayValue);
 
     for (size_t layerIndex = 0; layerIndex < this->numHiddenLayers + 2; layerIndex++) {
-        NeuralLayer& layer = this->layers[layerIndex];
+        Layer& layer = this->layers[layerIndex];
         Json::Value jsonLayer;
 
         if (layerIndex == 0)

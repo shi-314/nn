@@ -1,5 +1,5 @@
 /**
-* NeuralLayer
+* Layer
 *
 * This class represents a neural network layer with a fixed size.
 *
@@ -17,13 +17,13 @@
 
 using namespace std;
 
-class NeuralLayer {
+class Layer {
 public:
     enum Type { INPUT, HIDDEN, OUTPUT };
 
-    NeuralLayer();
+    Layer();
 
-    NeuralLayer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias = true);
+    Layer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias = true);
 
     /**
     * Number of neurons in this layer

@@ -1,5 +1,5 @@
 /**
-* NeuralLayer
+* Layer
 *
 * The implementation of a neural net layer.
 *
@@ -7,9 +7,9 @@
 * @date 22.03.2009
 */
 
-#include "NeuralLayer.h"
+#include "Layer.h"
 
-NeuralLayer::NeuralLayer()
+Layer::Layer()
     : numNeurons(0),
       neurons(),
       hasBias(true),
@@ -17,7 +17,7 @@ NeuralLayer::NeuralLayer()
 {
 }
 
-NeuralLayer::NeuralLayer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias)
+Layer::Layer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias)
     : numNeurons(numNeurons),
       hasBias(hasBias)
 {

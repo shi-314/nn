@@ -1,5 +1,5 @@
 /**
-* NeuralLayer
+* NeuralNetwork
 *
 * This class represents a neural network layer with a fixed size.
 *
@@ -13,7 +13,7 @@
 #include <iostream>
 #include <vector>
 
-#include "NeuralLayer.h"
+#include "Layer.h"
 
 using namespace std;
 
@@ -22,6 +22,8 @@ public:
     NeuralNet();
     NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers,
         size_t neuronsPerHL);
+
+    void add(Layer& layer);
 
     /**
     * Sets the number of input units
@@ -125,13 +127,12 @@ public:
     bool getBiasStatus() const;
 
     /**
-    * Saves the neural network in an XML file
+    * Saves the neural network as a JSON file
     */
-    bool saveFile(const string& filename);
     bool save(const string& filename);
 
     /**
-    * Loads the neural network from an XML file
+    * Loads the neural network from a JSON file
     */
     bool load(const string& filename);
 
@@ -156,7 +157,7 @@ private:
     double biasValue;
     bool useBias;
 
-    vector<NeuralLayer> layers;
+    vector<Layer> layers;
     vector<double> outputs;
     string name;
 };
