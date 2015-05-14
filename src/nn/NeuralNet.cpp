@@ -329,25 +329,26 @@ bool NeuralNet::save(const string& filename) {
     jsonNN["biasValue"] = this->biasValue;
     jsonNN["layers"] = Json::Value(Json::arrayValue);
 
-    for (size_t layer = 0; layer < this->numHiddenLayers + 2; layer++) {
+    for (size_t layerIndex = 0; layerIndex < this->numHiddenLayers + 2; layerIndex++) {
+        NeuralLayer& layer = this->layers[layerIndex];
         Json::Value jsonLayer;
 
-        if (layer == 0)
+        if (layerIndex == 0)
             jsonLayer["type"] = "input";
-        else if (layer == this->numHiddenLayers + 1)
+        else if (layerIndex == this->numHiddenLayers + 1)
             jsonLayer["type"] = "output";
         else
             jsonLayer["type"] = "hidden";
 
-        jsonLayer["hasBias"] = this->layers[layer].hasBias;
+        jsonLayer["hasBias"] = layer.hasBias;
         jsonLayer["neurons"] = Json::Value(Json::arrayValue);
 
-        for (size_t neuron = 0; neuron < this->layers[layer].numNeurons; neuron++) {
+        for (size_t neuron = 0; neuron < layer.numNeurons; neuron++) {
             Json::Value jsonNeuron;
             jsonNeuron["weights"] = Json::Value(Json::arrayValue);
 
-            for (size_t weight = 0; weight < this->layers[layer].neurons[neuron].numInputs; weight++) {
-                jsonNeuron["weights"].append(this->layers[layer].neurons[neuron].weights[weight]);
+            for (size_t weight = 0; weight < layer.neurons[neuron].numInputs; weight++) {
+                jsonNeuron["weights"].append(layer.neurons[neuron].weights[weight]);
             }
 
             jsonLayer["neurons"].append(jsonNeuron);
