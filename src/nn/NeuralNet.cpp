@@ -53,20 +53,6 @@ void NeuralNet::add(Layer::Type layerType, size_t numNeurons) {
     }
 }
 
-NeuralNet::NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers,
-    size_t neuronsPerHL)
-    : numInputs(inputs),
-      numOutputs(outputs),
-      numHiddenLayers(hiddenLayers),
-      numNeuronsPerHL(neuronsPerHL),
-      momentum(0.9),
-      learningRate(1),
-      biasValue(1),
-      useBias(true)
-{
-    this->createNet();
-}
-
 void NeuralNet::setNumInputs(size_t n) {
     this->numInputs = n;
 }
@@ -97,27 +83,6 @@ void NeuralNet::setNumNeuronsPerHL(size_t n) {
 
 size_t NeuralNet::getNumNeuronsPerHL() const {
     return this->numNeuronsPerHL;
-}
-
-void NeuralNet::createNet() {
-    // Create the input layer
-    Layer inputLayer(this->numInputs, 0, false); // Ein Input-Neuron hat selber keine Inputs
-    this->layers.push_back(inputLayer);
-
-    // Create the hidden layers
-    for (size_t n = 0; n < this->numHiddenLayers; ++n) {
-        if (n == 0) {
-            Layer hiddenLayer(this->numNeuronsPerHL, this->numInputs, this->useBias);
-            this->layers.push_back(hiddenLayer);
-        } else {
-            Layer hiddenLayer(this->numNeuronsPerHL, this->numNeuronsPerHL, this->useBias);
-            this->layers.push_back(hiddenLayer);
-        }
-    }
-
-    // Create the output layer
-    Layer outputLayer(this->numOutputs, this->numNeuronsPerHL, this->useBias);
-    this->layers.push_back(outputLayer);
 }
 
 double NeuralNet::sigmoid(double x) {

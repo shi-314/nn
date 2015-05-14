@@ -20,8 +20,6 @@ using namespace std;
 class NeuralNet {
 public:
     NeuralNet(const string& name);
-    NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers,
-        size_t neuronsPerHL);
 
     void add(Layer::Type layerType, size_t numNeurons);
 
@@ -64,11 +62,6 @@ public:
     * Returns the number of neurons in each hidden layer
     */
     size_t getNumNeuronsPerHL() const;
-
-    /**
-    * Creates the neural network with the previously defined dimensions
-    */
-    void createNet();
 
     /**
     * Sends the signals (inputs) through the neural network und
