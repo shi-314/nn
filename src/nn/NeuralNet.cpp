@@ -16,7 +16,7 @@
 #include <fstream>
 #include <math.h>
 
-NeuralNet::NeuralNet()
+NeuralNet::NeuralNet(const string& name)
     : numInputs(0),
       numOutputs(0),
       numHiddenLayers(0),
@@ -25,12 +25,32 @@ NeuralNet::NeuralNet()
       learningRate(1),
       biasValue(1),
       useBias(true),
-      name("")
+      name(name)
 {
 }
 
-void NeuralNet::add(Layer& layer) {
-    this->layers.push_back(layer);
+void NeuralNet::add(Layer::Type layerType, size_t numNeurons) {
+    if (layerType == Layer::INPUT) {
+        // Create the input layer
+        this->numInputs = numNeurons;
+        Layer inputLayer(numNeurons, 0, false);
+        this->layers.push_back(inputLayer);
+    } else if (layerType == Layer::HIDDEN) {
+        // Create the hidden layers
+        this->numHiddenLayers++;
+        this->numNeuronsPerHL = numNeurons; // TODO: Remove this attribute
+
+        Layer& lastLayer = this->layers[this->layers.size() - 1];
+        Layer hiddenLayer(numNeurons, lastLayer.numNeurons, this->useBias);
+
+        this->layers.push_back(hiddenLayer);
+    } else if (layerType == Layer::OUTPUT) {
+        // Create the output layer
+        this->numOutputs = numNeurons;
+        Layer& lastLayer = this->layers[this->layers.size() - 1];
+        Layer outputLayer(numNeurons, lastLayer.numNeurons, this->useBias);
+        this->layers.push_back(outputLayer);
+    }
 }
 
 NeuralNet::NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers,

@@ -25,3 +25,7 @@ Layer::Layer(const size_t numNeurons, const size_t numInputsPerNeuron, const boo
         this->neurons.push_back(Neuron(numInputsPerNeuron, hasBias));
     }
 }
+
+Layer::Type Layer::getType() const {
+    return this->type;
+}

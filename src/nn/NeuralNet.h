@@ -19,11 +19,11 @@ using namespace std;
 
 class NeuralNet {
 public:
-    NeuralNet();
+    NeuralNet(const string& name);
     NeuralNet(size_t inputs, size_t outputs, size_t hiddenLayers,
         size_t neuronsPerHL);
 
-    void add(Layer& layer);
+    void add(Layer::Type layerType, size_t numNeurons);
 
     /**
     * Sets the number of input units

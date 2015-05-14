@@ -19,14 +19,11 @@ using namespace std;
 int main() {
     srand(time(0));
 
-    NeuralNet net(2, 1, 1, 2);
+    NeuralNet net("xornet");
 
-    // New api:
-    // NeuralNetwork nn("xornet");
-    // nn.add(Layer(Layer::INPUT, 2);
-    // nn.add(Layer(Layer::HIDDEN, 1);
-    // nn.add(Layer(Layer::HIDDEN, 1);
-    // nn.add(Layer(Layer::OUTPUT, 2);
+    net.add(Layer::INPUT, 2);
+    net.add(Layer::HIDDEN, 2);
+    net.add(Layer::OUTPUT, 1);
 
     net.setLearningRate(0.5);
     net.setMomentum(0.9);

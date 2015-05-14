@@ -39,6 +39,8 @@ public:
     * True if the layer has an additional bias value.
     */
     bool hasBias;
+
+    Type getType() const;
     
 private:
     Type type;
