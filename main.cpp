@@ -26,7 +26,7 @@ int main() {
     net.add(Layer::HIDDEN, 2);
     net.add(Layer::OUTPUT, 1);
 
-    net.setLearningRate(0.5);
+    net.setLearningRate(0.01);
     net.setMomentum(0.9);
 
     // Inputs
@@ -39,19 +39,20 @@ int main() {
     // Outputs
 
     vector<double> outputs;
-    vector<double> out0 = {0}, out1 = {1};
+    vector<double> out0 = {0}, out1 = {1}, out2 = {0.314}, out3 = {0.666};
 
     double error = 0;
 
     auto start = std::chrono::high_resolution_clock::now();
     int i;
-    for (i = 0; i < 100000; i++) {
+    for (i = 0; i < 2000000; i++) {
         error = net.backpropagation(inp3, out1);
         error += net.backpropagation(inp2, out0);
-        error += net.backpropagation(inp4, out1);
-        error += net.backpropagation(inp1, out0);
+        error += net.backpropagation(inp4, out2);
+        error += net.backpropagation(inp1, out3);
 
-        if (i % 10000 == 0) {
+        if (i % 100000 == 0) {
+            net.setLearningRate(net.getLearningRate() * 0.1);
             error /= 4;
             cout << "Error = \t" << error << endl;
         }

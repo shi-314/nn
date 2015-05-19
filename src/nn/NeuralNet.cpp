@@ -50,12 +50,14 @@ void NeuralNet::add(Layer::Type layerType, size_t numNeurons) {
 double NeuralNet::sigmoid(double x) {
     //double response = 1;
     //return 1/(1+exp(-x/response));
-    return 1 / (1 + exp(-x));
+    // return 1 / (1 + exp(-x));
+    return max(0.0, x);
 }
 
 double NeuralNet::sigmoidDerivation(double x) {
-    double gx = this->sigmoid(x);
-    return gx * (1 - gx);
+    return log(1 + exp(x));
+    // double gx = this->sigmoid(x);
+    // return gx * (1 - gx);
 }
 
 const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
