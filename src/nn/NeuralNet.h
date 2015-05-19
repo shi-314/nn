@@ -25,16 +25,6 @@ public:
     void add(Layer::Type layerType, size_t numNeurons);
 
     /**
-    * Sets the number of hidden layers
-    */
-    void setNumHiddenLayers(size_t n);
-
-    /**
-    * Returns the number of hidden layers
-    */
-    size_t getNumHiddenLayers() const;
-
-    /**
     * Sends the signals (inputs) through the neural network und
     * returns the calculated output values.
     */

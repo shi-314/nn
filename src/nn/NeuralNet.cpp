@@ -47,14 +47,6 @@ void NeuralNet::add(Layer::Type layerType, size_t numNeurons) {
     }
 }
 
-void NeuralNet::setNumHiddenLayers(size_t n) {
-    this->numHiddenLayers = n;
-}
-
-size_t NeuralNet::getNumHiddenLayers() const {
-    return this->numHiddenLayers;
-}
-
 double NeuralNet::sigmoid(double x) {
     //double response = 1;
     //return 1/(1+exp(-x/response));
