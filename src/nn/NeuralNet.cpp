@@ -106,7 +106,7 @@ const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
         for (size_t j = 0; j < this->layers[i]->numNeurons; ++j) {
             double netinput = 0;
 
-            size_t numInputs = this->layers[i]->neurons[j].numInputs;
+            size_t numInputs = this->layers[i]->neurons[j]->numInputs;
 
             // For each weight
             // Calculate the net input (sum of inputs * weights)
@@ -114,17 +114,17 @@ const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
             // Ignore the input layer
             if (i > 0) {
                 for (size_t k = 0; k < inputs.size(); ++k)
-                    netinput += this->layers[i]->neurons[j].weights[k] * inputs[k];
+                    netinput += this->layers[i]->neurons[j]->weights[k] * inputs[k];
             } else {
                 netinput = inputs[j];
             }
 
             // Add the bias value if enabled
             if (this->useBias && this->layers[i]->hasBias) {
-                netinput += this->layers[i]->neurons[j].weights[numInputs - 1] * this->biasValue;
+                netinput += this->layers[i]->neurons[j]->weights[numInputs - 1] * this->biasValue;
             }
 
-            this->layers[i]->neurons[j].netInput = netinput;
+            this->layers[i]->neurons[j]->netInput = netinput;
             this->outputs.push_back(sigmoid(netinput));
         }
     }
@@ -153,14 +153,14 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
         standardError += err;
 
         // netinput of the neuron i
-        double net_i = this->layers[this->numHiddenLayers + 1]->neurons[i].netInput;
+        double net_i = this->layers[this->numHiddenLayers + 1]->neurons[i]->netInput;
 
         double di = err * this->sigmoidDerivation(net_i);
         delta_i.push_back(di);
 
         // Correct the weights between the output layer and the hidden layer
 
-        size_t numInputsI = this->layers[this->numHiddenLayers + 1]->neurons[i].numInputs;
+        size_t numInputsI = this->layers[this->numHiddenLayers + 1]->neurons[i]->numInputs;
         for (size_t j = 0; j < numInputsI; j++) {
             double net_j;
 
@@ -168,13 +168,13 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
             if (this->layers[this->numHiddenLayers + 1]->hasBias && j == numInputsI - 1) {
                 net_j = this->biasValue;
             } else {
-                net_j = this->layers[this->numHiddenLayers]->neurons[j].netInput;
+                net_j = this->layers[this->numHiddenLayers]->neurons[j]->netInput;
             }
 
-            double delta_w = this->learningRate * this->sigmoid(net_j) * di + this->momentum * this->layers[this->numHiddenLayers + 1]->neurons[i].deltaWeights[j];
+            double delta_w = this->learningRate * this->sigmoid(net_j) * di + this->momentum * this->layers[this->numHiddenLayers + 1]->neurons[i]->deltaWeights[j];
 
-            this->layers[this->numHiddenLayers + 1]->neurons[i].deltaWeights[j] = delta_w;
-            this->layers[this->numHiddenLayers + 1]->neurons[i].weights[j] += delta_w;
+            this->layers[this->numHiddenLayers + 1]->neurons[i]->deltaWeights[j] = delta_w;
+            this->layers[this->numHiddenLayers + 1]->neurons[i]->weights[j] += delta_w;
         }
     }
 
@@ -193,16 +193,16 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
 
             // Calculate the errors of the neuron j
             for (size_t i = 0; i < this->layers[L + 1]->numNeurons; i++) {
-                err_j += this->layers[L + 1]->neurons[i].weights[j] * delta_i[i];
+                err_j += this->layers[L + 1]->neurons[i]->weights[j] * delta_i[i];
             }
 
-            double net_j = this->layers[L]->neurons[j].netInput;
+            double net_j = this->layers[L]->neurons[j]->netInput;
             double dj = this->sigmoidDerivation(net_j) * err_j;
             delta_j.push_back(dj);
 
             // Correct the weights between the hidden layer and the predecessor layer
 
-            size_t numInputsJ = this->layers[L]->neurons[j].numInputs;
+            size_t numInputsJ = this->layers[L]->neurons[j]->numInputs;
             for (size_t k = 0; k < numInputsJ; k++) {
                 double net_k;
 
@@ -210,12 +210,12 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
                 if (this->layers[L]->hasBias && k == numInputsJ - 1) {
                     net_k = this->biasValue;
                 } else {
-                    net_k = this->layers[L - 1]->neurons[k].netInput;
+                    net_k = this->layers[L - 1]->neurons[k]->netInput;
                 }
-                double delta_w = this->learningRate * this->sigmoid(net_k) * dj + this->momentum * this->layers[L]->neurons[j].deltaWeights[k];
+                double delta_w = this->learningRate * this->sigmoid(net_k) * dj + this->momentum * this->layers[L]->neurons[j]->deltaWeights[k];
 
-                this->layers[L]->neurons[j].deltaWeights[k] = delta_w;
-                this->layers[L]->neurons[j].weights[k] += delta_w;
+                this->layers[L]->neurons[j]->deltaWeights[k] = delta_w;
+                this->layers[L]->neurons[j]->weights[k] += delta_w;
             }
         }
         delta_i = delta_j;
@@ -279,12 +279,12 @@ bool NeuralNet::save(const string& filename) {
         jsonLayer["hasBias"] = layer->hasBias;
         jsonLayer["neurons"] = Json::Value(Json::arrayValue);
 
-        for (size_t neuron = 0; neuron < layer->numNeurons; neuron++) {
+        for (size_t i = 0; i < layer->numNeurons; i++) {
             Json::Value jsonNeuron;
             jsonNeuron["weights"] = Json::Value(Json::arrayValue);
 
-            for (size_t weight = 0; weight < layer->neurons[neuron].numInputs; weight++)
-                jsonNeuron["weights"].append(layer->neurons[neuron].weights[weight]);
+            for (size_t j = 0; j < layer->neurons[i]->numInputs; j++)
+                jsonNeuron["weights"].append(layer->neurons[i]->weights[j]);
 
             jsonLayer["neurons"].append(jsonNeuron);
         }
