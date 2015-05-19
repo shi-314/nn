@@ -186,7 +186,7 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
     //
 
     for (size_t L = this->numHiddenLayers; L > 0; L--) {
-        Layer* hl = this->layers[L + 1];
+        Layer* hl = this->layers[L];
 
         for (size_t j = 0; j < hl->numNeurons; j++) {
             double err_j = 0;
