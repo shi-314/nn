@@ -20,6 +20,7 @@ using namespace std;
 class NeuralNet {
 public:
     NeuralNet(const string& name);
+    ~NeuralNet();
 
     void add(Layer::Type layerType, size_t numNeurons);
 
@@ -139,7 +140,7 @@ private:
     double biasValue;
     bool useBias;
 
-    vector<Layer> layers;
+    vector<Layer*> layers;
     vector<double> outputs;
     string name;
 };
