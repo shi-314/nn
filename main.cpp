@@ -10,6 +10,7 @@
 
 #include <nn/NeuralNet.h>
 
+#include <chrono>
 #include <iostream>
 #include <time.h>
 #include <stdlib.h>
@@ -41,20 +42,28 @@ int main() {
     vector<double> out0 = {0}, out1 = {1};
 
     double error = 0;
-    for (int X = 0; X <= 15000; X++) {
+
+    auto start = std::chrono::high_resolution_clock::now();
+    int i;
+    for (i = 0; i < 50000; i++) {
         error = net.backpropagation(inp3, out1);
         error += net.backpropagation(inp2, out0);
         error += net.backpropagation(inp4, out1);
         error += net.backpropagation(inp1, out0);
 
-        if (X % 1000 == 0) {
+        if (i % 5000 == 0) {
             error /= 4;
             cout << "Error = \t" << error << endl;
         }
     }
 
-    if (!net.save("export/nn.json"))
-        cout << "Could not export file" << endl;
+    cout << endl;
+
+    auto end = std::chrono::high_resolution_clock::now();
+    cout << "Backpropagation: " << i << " iterations in ";
+    cout << chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms\n";
+
+    cout << endl;
 
     // Let's test the neural network :)
 
@@ -79,6 +88,11 @@ int main() {
     net.calculateOutputs(inp4);
     outputs = net.getOutputs();
     cout << "Output: " << outputs[0] << endl;
+
+    cout << endl;
+
+    if (!net.save("export/nn.json"))
+        cout << "Could not export file" << endl;
 
     return 0;
 }
