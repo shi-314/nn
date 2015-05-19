@@ -25,16 +25,6 @@ public:
     void add(Layer::Type layerType, size_t numNeurons);
 
     /**
-    * Sets the number of output units
-    */
-    void setNumOutputs(size_t n);
-
-    /**
-    * Returns the number of output units
-    */
-    size_t getNumOutputs() const;
-
-    /**
     * Sets the number of hidden layers
     */
     void setNumHiddenLayers(size_t n);

@@ -17,8 +17,7 @@
 #include <math.h>
 
 NeuralNet::NeuralNet(const string& name)
-    : numOutputs(0),
-      numHiddenLayers(0),
+    : numHiddenLayers(0),
       momentum(0.9),
       learningRate(1),
       biasValue(1),
@@ -43,18 +42,9 @@ void NeuralNet::add(Layer::Type layerType, size_t numNeurons) {
         this->layers.push_back(new Layer(numNeurons, lastLayer->numNeurons, this->useBias));
     } else if (layerType == Layer::OUTPUT) {
         // Create the output layer
-        this->numOutputs = numNeurons;
         Layer* lastLayer = this->layers[this->layers.size() - 1];
         this->layers.push_back(new Layer(numNeurons, lastLayer->numNeurons, this->useBias));
     }
-}
-
-void NeuralNet::setNumOutputs(size_t n) {
-    this->numOutputs = n;
-}
-
-size_t NeuralNet::getNumOutputs() const {
-    return this->numOutputs;
 }
 
 void NeuralNet::setNumHiddenLayers(size_t n) {
@@ -144,7 +134,7 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
 
     Layer* outputLayer = this->layers[this->layers.size() - 1];
 
-    for (size_t i = 0; i < this->numOutputs; i++) {
+    for (size_t i = 0; i < outputLayer->numNeurons; i++) {
         Neuron* ni = outputLayer->neurons[i];
 
         // Err = y - aj = y - g(net_j)
@@ -177,7 +167,7 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
         }
     }
 
-    standardError /= this->numOutputs;
+    standardError /= outputLayer->numNeurons;
     standardError = (standardError * standardError) / 2; // E = 1/2 Err^2
 
     //
