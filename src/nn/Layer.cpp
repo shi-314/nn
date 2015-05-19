@@ -26,7 +26,3 @@ Layer::~Layer() {
     for(Neuron* neuron : this->neurons)
         delete neuron;
 }
-
-Layer::Type Layer::getType() const {
-    return this->type;
-}
