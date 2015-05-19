@@ -39,13 +39,13 @@ int main() {
     // Outputs
 
     vector<double> outputs;
-    vector<double> out0 = {0}, out1 = {1}, out2 = {0.314}, out3 = {0.666};
+    vector<double> out0 = {0}, out1 = {1}, out2 = {0.31415926535}, out3 = {0.666};
 
     double error = 0;
 
     auto start = std::chrono::high_resolution_clock::now();
     int i;
-    for (i = 0; i < 2000000; i++) {
+    for (i = 0; i < 1000000; i++) {
         error = net.backpropagation(inp3, out1);
         error += net.backpropagation(inp2, out0);
         error += net.backpropagation(inp4, out2);

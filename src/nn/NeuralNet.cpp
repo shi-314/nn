@@ -55,7 +55,12 @@ double NeuralNet::sigmoid(double x) {
 }
 
 double NeuralNet::sigmoidDerivation(double x) {
-    return log(1 + exp(x));
+    // return log(1 + exp(x));
+
+    // f'(x) = e^x / (e^x+1) = 1 / (1 + e^{-x})
+    // Derivation of softplus function
+    return 1.0 / (1.0 + exp(-x));
+
     // double gx = this->sigmoid(x);
     // return gx * (1 - gx);
 }
