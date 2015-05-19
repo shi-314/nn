@@ -20,6 +20,7 @@ using namespace std;
 class NeuralNet {
 public:
     NeuralNet(const string& name);
+    ~NeuralNet();
 
     void add(Layer::Type layerType, size_t numNeurons);
 
@@ -52,16 +53,6 @@ public:
     * Returns the number of hidden layers
     */
     size_t getNumHiddenLayers() const;
-
-    /**
-    * Sets the number of neurons in each hidden layer
-    */
-    void setNumNeuronsPerHL(size_t n);
-
-    /**
-    * Returns the number of neurons in each hidden layer
-    */
-    size_t getNumNeuronsPerHL() const;
 
     /**
     * Sends the signals (inputs) through the neural network und
@@ -143,14 +134,13 @@ private:
     size_t numInputs;
     size_t numOutputs;
     size_t numHiddenLayers;
-    size_t numNeuronsPerHL;
 
     double momentum;
     double learningRate;
     double biasValue;
     bool useBias;
 
-    vector<Layer> layers;
+    vector<Layer*> layers;
     vector<double> outputs;
     string name;
 };

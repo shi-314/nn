@@ -21,9 +21,8 @@ class Layer {
 public:
     enum Type { INPUT, HIDDEN, OUTPUT };
 
-    Layer();
-
     Layer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias = true);
+    ~Layer();
 
     /**
     * Number of neurons in this layer
@@ -33,17 +32,12 @@ public:
     /**
     * The neurons of the layer.
     */
-    vector<Neuron> neurons;
+    vector<Neuron*> neurons;
 
     /**
     * True if the layer has an additional bias value.
     */
     bool hasBias;
-
-    Type getType() const;
-    
-private:
-    Type type;
 };
 
 #endif
