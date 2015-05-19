@@ -20,7 +20,6 @@ NeuralNet::NeuralNet(const string& name)
     : numInputs(0),
       numOutputs(0),
       numHiddenLayers(0),
-      numNeuronsPerHL(0),
       momentum(0.9),
       learningRate(1),
       biasValue(1),
@@ -38,7 +37,7 @@ void NeuralNet::add(Layer::Type layerType, size_t numNeurons) {
     } else if (layerType == Layer::HIDDEN) {
         // Create the hidden layers
         this->numHiddenLayers++;
-        this->numNeuronsPerHL = numNeurons; // TODO: Remove this attribute
+        // this->numNeuronsPerHL = numNeurons; // TODO: Remove this attribute
 
         Layer& lastLayer = this->layers[this->layers.size() - 1];
         Layer hiddenLayer(numNeurons, lastLayer.numNeurons, this->useBias);
@@ -75,14 +74,6 @@ void NeuralNet::setNumHiddenLayers(size_t n) {
 
 size_t NeuralNet::getNumHiddenLayers() const {
     return this->numHiddenLayers;
-}
-
-void NeuralNet::setNumNeuronsPerHL(size_t n) {
-    this->numNeuronsPerHL = n;
-}
-
-size_t NeuralNet::getNumNeuronsPerHL() const {
-    return this->numNeuronsPerHL;
 }
 
 double NeuralNet::sigmoid(double x) {
@@ -196,7 +187,8 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
     //
 
     for (size_t L = this->numHiddenLayers; L > 0; L--) {
-        for (size_t j = 0; j < this->numNeuronsPerHL; j++) {
+        Layer& hl = this->layers[L + 1];
+        for (size_t j = 0; j < hl.numNeurons; j++) {
             double err_j = 0;
 
             // Calculate the errors of the neuron j

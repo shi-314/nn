@@ -9,13 +9,9 @@
 
 #include "Layer.h"
 
-Layer::Layer()
-    : numNeurons(0),
-      neurons(),
-      hasBias(true),
-      type()
-{
-}
+#include <iostream>
+
+using namespace std;
 
 Layer::Layer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias)
     : numNeurons(numNeurons),

@@ -54,16 +54,6 @@ public:
     size_t getNumHiddenLayers() const;
 
     /**
-    * Sets the number of neurons in each hidden layer
-    */
-    void setNumNeuronsPerHL(size_t n);
-
-    /**
-    * Returns the number of neurons in each hidden layer
-    */
-    size_t getNumNeuronsPerHL() const;
-
-    /**
     * Sends the signals (inputs) through the neural network und
     * returns the calculated output values.
     */
@@ -143,7 +133,6 @@ private:
     size_t numInputs;
     size_t numOutputs;
     size_t numHiddenLayers;
-    size_t numNeuronsPerHL;
 
     double momentum;
     double learningRate;

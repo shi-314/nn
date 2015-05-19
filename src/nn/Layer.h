@@ -21,8 +21,6 @@ class Layer {
 public:
     enum Type { INPUT, HIDDEN, OUTPUT };
 
-    Layer();
-
     Layer(const size_t numNeurons, const size_t numInputsPerNeuron, const bool hasBias = true);
 
     /**
