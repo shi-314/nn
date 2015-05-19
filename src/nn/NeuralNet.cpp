@@ -100,13 +100,17 @@ const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
             inputs = this->outputs;
 
         this->outputs.clear();
+        
+        Layer* li = this->layers[i];
 
         // Calculate the outputs = sigmoid(sum of (inputs * weights))
 
-        for (size_t j = 0; j < this->layers[i]->numNeurons; ++j) {
+        for (size_t j = 0; j < li->numNeurons; ++j) {
+            Neuron* nj = li->neurons[j];
+
             double netinput = 0;
 
-            size_t numInputs = this->layers[i]->neurons[j]->numInputs;
+            size_t numInputs = nj->numInputs;
 
             // For each weight
             // Calculate the net input (sum of inputs * weights)
@@ -114,20 +118,21 @@ const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
             // Ignore the input layer
             if (i > 0) {
                 for (size_t k = 0; k < inputs.size(); ++k)
-                    netinput += this->layers[i]->neurons[j]->weights[k] * inputs[k];
+                    netinput += nj->weights[k] * inputs[k];
             } else {
                 netinput = inputs[j];
             }
 
             // Add the bias value if enabled
-            if (this->useBias && this->layers[i]->hasBias) {
-                netinput += this->layers[i]->neurons[j]->weights[numInputs - 1] * this->biasValue;
+            if (this->useBias && li->hasBias) {
+                netinput += nj->weights[numInputs - 1] * this->biasValue;
             }
 
-            this->layers[i]->neurons[j]->netInput = netinput;
+            nj->netInput = netinput;
             this->outputs.push_back(sigmoid(netinput));
         }
     }
+
     return this->outputs;
 }
 
