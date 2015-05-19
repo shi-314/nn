@@ -101,7 +101,6 @@ public:
     inline double sigmoidDerivation(double x);
 
 private:
-    size_t numOutputs;
     size_t numHiddenLayers;
 
     double momentum;
