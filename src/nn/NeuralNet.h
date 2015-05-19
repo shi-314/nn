@@ -25,16 +25,6 @@ public:
     void add(Layer::Type layerType, size_t numNeurons);
 
     /**
-    * Sets the number of input units
-    */
-    void setNumInputs(size_t n);
-
-    /**
-    * Returns the number of input units
-    */
-    size_t getNumInputs() const;
-
-    /**
     * Sets the number of output units
     */
     void setNumOutputs(size_t n);
@@ -131,7 +121,6 @@ public:
     inline double sigmoidDerivation(double x);
 
 private:
-    size_t numInputs;
     size_t numOutputs;
     size_t numHiddenLayers;
 

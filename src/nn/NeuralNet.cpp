@@ -17,8 +17,7 @@
 #include <math.h>
 
 NeuralNet::NeuralNet(const string& name)
-    : numInputs(0),
-      numOutputs(0),
+    : numOutputs(0),
       numHiddenLayers(0),
       momentum(0.9),
       learningRate(1),
@@ -36,7 +35,6 @@ NeuralNet::~NeuralNet() {
 void NeuralNet::add(Layer::Type layerType, size_t numNeurons) {
     if (layerType == Layer::INPUT) {
         // Create the input layer
-        this->numInputs = numNeurons;
         this->layers.push_back(new Layer(numNeurons, 0, false));
     } else if (layerType == Layer::HIDDEN) {
         // Create the hidden layers
@@ -49,14 +47,6 @@ void NeuralNet::add(Layer::Type layerType, size_t numNeurons) {
         Layer* lastLayer = this->layers[this->layers.size() - 1];
         this->layers.push_back(new Layer(numNeurons, lastLayer->numNeurons, this->useBias));
     }
-}
-
-void NeuralNet::setNumInputs(size_t n) {
-    this->numInputs = n;
-}
-
-size_t NeuralNet::getNumInputs() const {
-    return this->numInputs;
 }
 
 void NeuralNet::setNumOutputs(size_t n) {
@@ -91,7 +81,7 @@ const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
     this->outputs.clear();
 
     // Check the size of the inputs
-    if (inputs.size() != this->numInputs)
+    if (inputs.size() != this->layers[0]->numNeurons)
         return outputs;
 
     // For each layer
