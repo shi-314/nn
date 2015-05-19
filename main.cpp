@@ -45,13 +45,13 @@ int main() {
 
     auto start = std::chrono::high_resolution_clock::now();
     int i;
-    for (i = 0; i < 50000; i++) {
+    for (i = 0; i < 100000; i++) {
         error = net.backpropagation(inp3, out1);
         error += net.backpropagation(inp2, out0);
         error += net.backpropagation(inp4, out1);
         error += net.backpropagation(inp1, out0);
 
-        if (i % 5000 == 0) {
+        if (i % 10000 == 0) {
             error /= 4;
             cout << "Error = \t" << error << endl;
         }

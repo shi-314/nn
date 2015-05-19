@@ -147,34 +147,38 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
     // Calculate and correct the errors of the output unit
     //
 
+    Layer* outputLayer = this->layers[this->layers.size() - 1];
+
     for (size_t i = 0; i < this->numOutputs; i++) {
+        Neuron* ni = outputLayer->neurons[i];
+
         // Err = y - aj = y - g(net_j)
         double err = expectedOutputs[i] - this->outputs[i];
         standardError += err;
 
         // netinput of the neuron i
-        double net_i = this->layers[this->numHiddenLayers + 1]->neurons[i]->netInput;
+        double net_i = ni->netInput;
 
         double di = err * this->sigmoidDerivation(net_i);
         delta_i.push_back(di);
 
         // Correct the weights between the output layer and the hidden layer
 
-        size_t numInputsI = this->layers[this->numHiddenLayers + 1]->neurons[i]->numInputs;
+        size_t numInputsI = ni->numInputs;
         for (size_t j = 0; j < numInputsI; j++) {
             double net_j;
 
             // Does the layer have a bias and is j the bias neuron?
-            if (this->layers[this->numHiddenLayers + 1]->hasBias && j == numInputsI - 1) {
+            if (outputLayer->hasBias && j == numInputsI - 1) {
                 net_j = this->biasValue;
             } else {
                 net_j = this->layers[this->numHiddenLayers]->neurons[j]->netInput;
             }
 
-            double delta_w = this->learningRate * this->sigmoid(net_j) * di + this->momentum * this->layers[this->numHiddenLayers + 1]->neurons[i]->deltaWeights[j];
+            double delta_w = this->learningRate * this->sigmoid(net_j) * di + this->momentum * ni->deltaWeights[j];
 
-            this->layers[this->numHiddenLayers + 1]->neurons[i]->deltaWeights[j] = delta_w;
-            this->layers[this->numHiddenLayers + 1]->neurons[i]->weights[j] += delta_w;
+            ni->deltaWeights[j] = delta_w;
+            ni->weights[j] += delta_w;
         }
     }
 
@@ -187,37 +191,41 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
 
     for (size_t L = this->numHiddenLayers; L > 0; L--) {
         Layer* hl = this->layers[L];
+        Layer* prevHl = this->layers[L - 1];
+        Layer* nextHl = this->layers[L + 1];
 
         for (size_t j = 0; j < hl->numNeurons; j++) {
+            Neuron* nj = hl->neurons[j];
             double err_j = 0;
 
             // Calculate the errors of the neuron j
-            for (size_t i = 0; i < this->layers[L + 1]->numNeurons; i++) {
-                err_j += this->layers[L + 1]->neurons[i]->weights[j] * delta_i[i];
+            for (size_t i = 0; i < nextHl->numNeurons; i++) {
+                err_j += nextHl->neurons[i]->weights[j] * delta_i[i];
             }
 
-            double net_j = this->layers[L]->neurons[j]->netInput;
+            double net_j = nj->netInput;
             double dj = this->sigmoidDerivation(net_j) * err_j;
             delta_j.push_back(dj);
 
             // Correct the weights between the hidden layer and the predecessor layer
 
-            size_t numInputsJ = this->layers[L]->neurons[j]->numInputs;
+            size_t numInputsJ = nj->numInputs;
             for (size_t k = 0; k < numInputsJ; k++) {
                 double net_k;
 
                 // Does the layer have a bias and is j the bias neuron?
-                if (this->layers[L]->hasBias && k == numInputsJ - 1) {
+                if (hl->hasBias && k == numInputsJ - 1) {
                     net_k = this->biasValue;
                 } else {
-                    net_k = this->layers[L - 1]->neurons[k]->netInput;
+                    net_k = prevHl->neurons[k]->netInput;
                 }
-                double delta_w = this->learningRate * this->sigmoid(net_k) * dj + this->momentum * this->layers[L]->neurons[j]->deltaWeights[k];
+                double delta_w = this->learningRate * this->sigmoid(net_k) * dj + this->momentum * nj->deltaWeights[k];
 
-                this->layers[L]->neurons[j]->deltaWeights[k] = delta_w;
-                this->layers[L]->neurons[j]->weights[k] += delta_w;
+                hl->neurons[j]->deltaWeights[k] = delta_w;
+                hl->neurons[j]->weights[k] += delta_w;
             }
         }
+
         delta_i = delta_j;
         delta_j.clear();
     }
