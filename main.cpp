@@ -43,7 +43,7 @@ int main() {
         return x > 0 ? 1.0 : 0.0;
     };
 
-    net.setActivationFunction(softmax, softmaxDerivative);
+    net.setActivationFunction(hardmax, hardmaxDerivative);
 
     net.setBiasValue(0.5);
     net.setLearningRate(0.1);
@@ -71,9 +71,10 @@ int main() {
     size_t d;
 
     auto start = std::chrono::high_resolution_clock::now();
-    for (i = 0; i < 100000; i++) {
+    for (i = 0; i < 1; i++) {
         error = 0;
         for (d = 0; d < data.size(); ++d) {
+            net.calculateOutputs(data[d].first);
             error += net.backpropagation(data[d].first, data[d].second);
         }
 

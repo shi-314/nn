@@ -144,14 +144,13 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
         double di = err * this->activationFunctionDerivative(net_i);
         delta_i.push_back(di);
 
-        // Correct the weights between the output layer and the hidden layer
+        // Correct the weights between the output layer (i) and the hidden layer (j)
 
-        size_t numInputsI = ni->numInputs;
-        for (size_t j = 0; j < numInputsI; j++) {
+        for (size_t j = 0; j < ni->numInputs; j++) {
             double net_j;
 
             // Does the layer have a bias and is j the bias neuron?
-            if (outputLayer->hasBias && j == numInputsI - 1) {
+            if (outputLayer->hasBias && j == ni->numInputs - 1) {
                 net_j = this->biasValue;
             } else {
                 net_j = this->layers[this->numHiddenLayers]->neurons[j]->netInput;
@@ -201,6 +200,7 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
                 } else {
                     net_k = prevHl->neurons[k]->netInput;
                 }
+
                 double delta_w = this->learningRate * this->activationFunction(net_k) * dj + this->momentum * nj->deltaWeights[k];
 
                 hl->neurons[j]->deltaWeights[k] = delta_w;
