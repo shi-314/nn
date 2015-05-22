@@ -63,27 +63,6 @@ void NeuralNet::setActivationFunction(
     this->activationFunctionDerivative = derivative;
 }
 
-// double NeuralNet::sigmoid(double x) {
-//     //double response = 1;
-//     //return 1/(1+exp(-x/response));
-//     return 1 / (1 + exp(-x));
-//     // return max(0.0, x);
-// }
-//
-// double NeuralNet::sigmoidDerivation(double x) {
-//     // return log(1 + exp(x));
-//
-//     // f'(x) = e^x / (e^x+1) = 1 / (1 + e^{-x})
-//     // Derivation of softplus function
-//     // return 1.0 / (1.0 + exp(-x));
-//
-//     // Derivative of f(x)=max(0,x)
-//     // return x < 0 ? 0 : 1;
-//
-//     double gx = this->sigmoid(x);
-//     return gx * (1 - gx);
-// }
-
 const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
     // Results
     this->outputs.clear();
