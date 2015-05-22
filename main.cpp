@@ -51,37 +51,43 @@ int main() {
 
     // Inputs
 
-    vector<double> inp1 = {0, 0},
-                   inp2 = {1, 1},
-                   inp3 = {1, 0},
-                   inp4 = {0, 1};
+    typedef vector<double> InputType;
+    typedef vector<double> OutputType;
+    typedef pair<InputType, OutputType> DataSet;
 
-    // Outputs
+    vector<DataSet> data = {
+        {{0, 0}, {0}},
+        {{0, 1}, {1}},
+        {{1, 1}, {0}},
+        {{1, 0}, {1}}
+    };
+
+    cout << "Learning..." << endl;
 
     vector<double> outputs;
-    vector<double> out0 = {0}, out1 = {1}, out2 = {0.31415926535}, out3 = {0.666};
-
     double error = 0;
 
-    auto start = std::chrono::high_resolution_clock::now();
     int i;
-    for (i = 0; i < 1000000; i++) {
-        error = net.backpropagation(inp3, out1);
-        error += net.backpropagation(inp2, out0);
-        error += net.backpropagation(inp4, out1);
-        error += net.backpropagation(inp1, out0);
+    size_t d;
 
-        if (i % 100000 == 0) {
+    auto start = std::chrono::high_resolution_clock::now();
+    for (i = 0; i < 100000; i++) {
+        error = 0;
+        for (d = 0; d < data.size(); ++d) {
+            error += net.backpropagation(data[d].first, data[d].second);
+        }
+
+        if (i % 10000 == 0) {
             net.setLearningRate(net.getLearningRate() * 0.1);
-            error /= 4;
-            cout << "Error = \t" << error << endl;
+            error /= data.size();
+            cout << "\terror = " << error << endl;
         }
     }
 
     cout << endl;
 
     auto end = std::chrono::high_resolution_clock::now();
-    cout << "Backpropagation: " << i << " iterations in ";
+    cout << i << " iterations in ";
     cout << chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms\n";
 
     cout << endl;
@@ -90,25 +96,20 @@ int main() {
 
     cout << "Testing the neural network...\n";
 
-    cout << "Input: 1,1\n";
-    net.calculateOutputs(inp2);
-    outputs = net.getOutputs();
-    cout << "Output: " << outputs[0] << endl;
+    for (d = 0; d < data.size(); ++d) {
+        net.calculateOutputs(data[d].first);
+        outputs = net.getOutputs();
 
-    cout << "Input: 0,0\n";
-    net.calculateOutputs(inp1);
-    outputs = net.getOutputs();
-    cout << "Output: " << outputs[0] << endl;
-
-    cout << "Input: 1,0\n";
-    net.calculateOutputs(inp3);
-    outputs = net.getOutputs();
-    cout << "Output: " << outputs[0] << endl;
-
-    cout << "Input: 0,1\n";
-    net.calculateOutputs(inp4);
-    outputs = net.getOutputs();
-    cout << "Output: " << outputs[0] << endl;
+        cout << "\tf( ";
+        for(auto i : data[d].first) {
+            cout << i << " ";
+        }
+        cout << ") = ";
+        for(auto o : outputs) {
+            cout << o << " ";
+        }
+        cout << endl;
+    }
 
     cout << endl;
 
