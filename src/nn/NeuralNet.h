@@ -10,6 +10,7 @@
 #ifndef _NEURAL_NET_H
 #define _NEURAL_NET_H
 
+#include <functional>
 #include <iostream>
 #include <vector>
 
@@ -23,6 +24,13 @@ public:
     ~NeuralNet();
 
     void add(Layer::Type layerType, size_t numNeurons);
+
+    /**
+     * Sets the activation function and it's derivative (default is sigmoid)
+     */
+    void setActivationFunction(
+        std::function<double(double x)> activation,
+        std::function<double(double x)> derivative);
 
     /**
     * Sends the signals (inputs) through the neural network und
@@ -90,16 +98,6 @@ public:
     */
     bool load(const string& filename);
 
-    /**
-    * Sigmoid function (activation function)
-    */
-    inline double sigmoid(double x);
-
-    /**
-    * The first derivation of the sigmoid function
-    */
-    inline double sigmoidDerivation(double x);
-
 private:
     size_t numHiddenLayers;
 
@@ -107,6 +105,9 @@ private:
     double learningRate;
     double biasValue;
     bool useBias;
+
+    std::function<double(double)> activationFunction;
+    std::function<double(double)> activationFunctionDerivative;
 
     vector<Layer*> layers;
     vector<double> outputs;

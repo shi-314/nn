@@ -12,6 +12,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <math.h>
 #include <time.h>
 #include <stdlib.h>
 
@@ -26,8 +27,26 @@ int main() {
     net.add(Layer::HIDDEN, 2);
     net.add(Layer::OUTPUT, 1);
 
-    // net.setBiasValue(0.5);
-    net.setLearningRate(0.01);
+    auto softmax = [] (double x) {
+        return 1 / (1 + exp(-x));
+    };
+
+    auto softmaxDerivative = [] (double x) {
+        return 1.0 / (1.0 + exp(-x));
+    };
+
+    auto hardmax = [] (double x) {
+        return max(0.0, x);
+    };
+
+    auto hardmaxDerivative = [] (double x) {
+        return x > 0 ? 1.0 : 0.0;
+    };
+
+    net.setActivationFunction(softmax, softmaxDerivative);
+
+    net.setBiasValue(0.5);
+    net.setLearningRate(0.1);
     net.setMomentum(0.9);
 
     // Inputs

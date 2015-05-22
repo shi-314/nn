@@ -24,6 +24,14 @@ NeuralNet::NeuralNet(const string& name)
       useBias(true),
       name(name)
 {
+    this->activationFunction = [] (double x) {
+        return 1 / (1 + exp(-x));
+    };
+
+    this->activationFunctionDerivative = [this] (double x) {
+        double gx = this->activationFunction(x);
+        return gx * (1 - gx);
+    };
 }
 
 NeuralNet::~NeuralNet() {
@@ -47,26 +55,34 @@ void NeuralNet::add(Layer::Type layerType, size_t numNeurons) {
     }
 }
 
-double NeuralNet::sigmoid(double x) {
-    //double response = 1;
-    //return 1/(1+exp(-x/response));
-    return 1 / (1 + exp(-x));
-    // return max(0.0, x);
+void NeuralNet::setActivationFunction(
+    std::function<double(double x)> activation,
+    std::function<double(double x)> derivative)
+{
+    this->activationFunction = activation;;
+    this->activationFunctionDerivative = derivative;
 }
 
-double NeuralNet::sigmoidDerivation(double x) {
-    // return log(1 + exp(x));
-
-    // f'(x) = e^x / (e^x+1) = 1 / (1 + e^{-x})
-    // Derivation of softplus function
-    // return 1.0 / (1.0 + exp(-x));
-
-    // Derivative of f(x)=max(0,x)
-    // return x < 0 ? 0 : 1;
-
-    double gx = this->sigmoid(x);
-    return gx * (1 - gx);
-}
+// double NeuralNet::sigmoid(double x) {
+//     //double response = 1;
+//     //return 1/(1+exp(-x/response));
+//     return 1 / (1 + exp(-x));
+//     // return max(0.0, x);
+// }
+//
+// double NeuralNet::sigmoidDerivation(double x) {
+//     // return log(1 + exp(x));
+//
+//     // f'(x) = e^x / (e^x+1) = 1 / (1 + e^{-x})
+//     // Derivation of softplus function
+//     // return 1.0 / (1.0 + exp(-x));
+//
+//     // Derivative of f(x)=max(0,x)
+//     // return x < 0 ? 0 : 1;
+//
+//     double gx = this->sigmoid(x);
+//     return gx * (1 - gx);
+// }
 
 const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
     // Results
@@ -111,7 +127,7 @@ const vector<double>& NeuralNet::calculateOutputs(vector<double> inputs) {
             }
 
             nj->netInput = netinput;
-            this->outputs.push_back(sigmoid(netinput));
+            this->outputs.push_back(this->activationFunction(netinput));
         }
     }
 
@@ -146,7 +162,7 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
         // netinput of the neuron i
         double net_i = ni->netInput;
 
-        double di = err * this->sigmoidDerivation(net_i);
+        double di = err * this->activationFunctionDerivative(net_i);
         delta_i.push_back(di);
 
         // Correct the weights between the output layer and the hidden layer
@@ -162,7 +178,7 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
                 net_j = this->layers[this->numHiddenLayers]->neurons[j]->netInput;
             }
 
-            double delta_w = this->learningRate * this->sigmoid(net_j) * di + this->momentum * ni->deltaWeights[j];
+            double delta_w = this->learningRate * this->activationFunction(net_j) * di + this->momentum * ni->deltaWeights[j];
 
             ni->deltaWeights[j] = delta_w;
             ni->weights[j] += delta_w;
@@ -191,7 +207,7 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
             }
 
             double net_j = nj->netInput;
-            double dj = this->sigmoidDerivation(net_j) * err_j;
+            double dj = this->activationFunctionDerivative(net_j) * err_j;
             delta_j.push_back(dj);
 
             // Correct the weights between the hidden layer and the predecessor layer
@@ -206,7 +222,7 @@ double NeuralNet::backpropagation(const vector<double>& inputs, const vector<dou
                 } else {
                     net_k = prevHl->neurons[k]->netInput;
                 }
-                double delta_w = this->learningRate * this->sigmoid(net_k) * dj + this->momentum * nj->deltaWeights[k];
+                double delta_w = this->learningRate * this->activationFunction(net_k) * dj + this->momentum * nj->deltaWeights[k];
 
                 hl->neurons[j]->deltaWeights[k] = delta_w;
                 hl->neurons[j]->weights[k] += delta_w;
