@@ -26,6 +26,7 @@ int main() {
     net.add(Layer::HIDDEN, 2);
     net.add(Layer::OUTPUT, 1);
 
+    // net.setBiasValue(0.5);
     net.setLearningRate(0.01);
     net.setMomentum(0.9);
 
@@ -48,8 +49,8 @@ int main() {
     for (i = 0; i < 1000000; i++) {
         error = net.backpropagation(inp3, out1);
         error += net.backpropagation(inp2, out0);
-        error += net.backpropagation(inp4, out2);
-        error += net.backpropagation(inp1, out3);
+        error += net.backpropagation(inp4, out1);
+        error += net.backpropagation(inp1, out0);
 
         if (i % 100000 == 0) {
             net.setLearningRate(net.getLearningRate() * 0.1);
