@@ -43,7 +43,7 @@ int main() {
 
     double error = 0;
 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
     int i;
     for (i = 0; i < 100000; i++) {
         error = net.backpropagation(inp3, out1);
@@ -59,9 +59,9 @@ int main() {
 
     cout << endl;
 
-    auto end = std::chrono::high_resolution_clock::now();
+    auto end = chrono::high_resolution_clock::now();
     cout << "Backpropagation: " << i << " iterations in ";
-    cout << chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms\n";
+    cout << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms\n";
 
     cout << endl;
 
